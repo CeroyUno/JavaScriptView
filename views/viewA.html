@@ -1,0 +1,14 @@
+<jsv-header>
+    <button-header-right></button-header-right>
+    <button-header-left onclick="$JSView.back()">< Back</button-header-left>
+    {{title}}
+</jsv-header>
+<jsv-content>
+    <h1 class="paddingFull10">View A</h1>
+    <label class="item"><input type="text" placeholder="Name"></label>
+    <label class="item"><input type="text" placeholder="Surname"></label>
+    <label class="item"><input type="tel" placeholder="Tel"></label>
+    <label class="item"><input type="url" placeholder="Web"></label>
+    <label class="item"><textarea placeholder="Position"></textarea></label>
+    <button onclick="$JSView.goToView('viewB')" class="bgYellow">Go to View B</button>
+</jsv-content>
