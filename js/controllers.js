@@ -58,6 +58,13 @@ $JSView.controller = {
             '{{title}}': 'Title D'
         },e)
     },
+    viewE: function(e){
+        $JSView.dataView({
+            '{{title}}': 'Title E'
+        },e)
+        
+        $JSView.initTabs();
+    },
     modalA: function(e){
         $JSView.dataView({
             '{{title}}': 'Title modal A'

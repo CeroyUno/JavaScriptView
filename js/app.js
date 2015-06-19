@@ -64,6 +64,11 @@ window.addEventListener('load', function() {
             url: '/viewD',
             template: 'views/viewD.html',
             controler: 'viewD'
+        },
+        viewE: {
+            url: '/viewE',
+            template: 'views/viewE.html',
+            controler: 'viewE'
         }
     });
     

@@ -1,3 +1,13 @@
+/*
+Hola y bienvenid@ a JavaScriptView
+
+JavaScriptView es un proyecto opensource, por lo que puedes utilizarlo, modificarlo y adaptarlo a tus necesidades. Nos gustaría saber algo más y que nos enviaras ejemplos de apps que crees con este framework.
+
+Queremos que entres en el equipo y que colabores con este pequeño framework. Puedes enviarnos un email a contacto@javascriptview.com
+
+Gracias!
+*/
+
 //Declaración de variables Globales
 var JSVFullSpinner, JSVStatusFullSpinner = false, JSVActualView, statusActionMenuSide = false, typeProject, tempDevice = 'iOS';
 
@@ -15,6 +25,8 @@ $JSView = {
             var style = document.createElement('style');
             style.type = 'text/css';
             style.innerHTML += 'jsv-content { top: 64px; }';
+            style.innerHTML += 'jsv-tabs{ top: 64px; }';
+            style.innerHTML += '.has-tabs{ top: 109px; }';
             style.innerHTML += 'jsv-header { padding-top: 20px; height: 64px }';
             document.getElementsByTagName('head')[0].appendChild(style); 
         }
@@ -325,6 +337,15 @@ $JSView = {
             }
          });
          /*---------------------*/
+    },
+    //Esta función nos permite crear los slides
+    initTabs: function(e, options){
+        for (var i = 0; i < $v.selectAll('jsv-tabs jsv-tab').length; ++i) {
+            $v.selectAll('jsv-tabs jsv-tab')[i].addEventListener('click', function() { 
+                $v.select('jsv-tabs > jsv-tab.active').classList.remove('active');
+                this.classList.add('active');
+            }, false);  
+        }
     }
 }
 
