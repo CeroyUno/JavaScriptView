@@ -1,10 +1,8 @@
-<jsv-content>
-    <h1 class="paddingFull10">Menu</h1>
-    <ul>
-        <li onclick="$JSView.actionMenu('viewMenuA')">Menu A</li>
-        <li onclick="$JSView.actionMenu('viewMenuB')">Menu B</li>
-        <li onclick="$JSView.actionMenu('viewMenuC')">Menu C</li>
-        <li onclick="$JSView.actionMenu('viewMenuD')">Menu D</li>
-        <li onclick="$JSView.actionMenu('viewMenuE')">Menu E</li>
-    </ul>
-</jsv-content>
+<h1 class="paddingFull10">Menu</h1>
+<jsv-menu>
+    <jsv-option onclick="$JSView.actionMenu('viewMenuA')">Menu A</jsv-option>
+    <jsv-option onclick="$JSView.actionMenu('viewMenuB')">Menu B</jsv-option>
+    <jsv-option onclick="$JSView.actionMenu('viewMenuC')">Menu C</jsv-option>
+    <jsv-option onclick="$JSView.actionMenu('viewMenuD')">Menu D</jsv-option>
+    <jsv-option onclick="$JSView.actionMenu('viewMenuE')">Menu E</jsv-option>
+</jsv-menu>

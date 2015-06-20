@@ -1,4 +1,13 @@
-/*Clases genéricas*/
+/*
+JavaScript View, opensource library :) 
+This is Javascript and Love
+www.javascriptview.com
+contact@javascriptview.com
+
+Here you can write your custom CSS
+*/
+
+/*Generic*/
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-box-sizing: border-box;
@@ -41,7 +50,7 @@ textarea{
 
 /*-----------------*/
 
-/*Clases genéricas para los contenedores*/
+/*Containers and Content*/
 jsv-main, jsv-container, jsv-view{
     position: absolute;
     background-color: #fff;
@@ -176,7 +185,47 @@ jsv-header button-header-left{
     font-size: 16px}
 /*-----------------*/
 
-/*Clases para las modales*/
+/*Tabs*/
+jsv-tabs jsv-tab{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: block;
+    line-height: 45px;
+    text-align: center;
+    width: 100%}
+
+jsv-tabs jsv-tab.active{
+    border-bottom: 3px solid #ccc}
+    
+jsv-tabs {
+    position: absolute;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    height: 45px;
+    width: 100%;
+    border-bottom: 1px solid #ccc}
+
+jsv-content jsv-tab{
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling:touch}
+
+.jsv-no-border{
+    border: none !important}
+/*-----------------*/
+
+/*Modal*/
 jsv-modal{
     position: absolute;
     background-color: #fff;
@@ -187,7 +236,7 @@ jsv-modal{
     z-index: 99}
 /*-----------------*/
 
-/*Clases para el menu left*/
+/*Menu left*/
 .jsv-main-left{
     border-left: 1px solid #ddd}
 
@@ -199,28 +248,20 @@ jsv-menu-left{
     overflow:auto;
     z-index: 0}
 
-jsv-menu-left jsv-content{
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    width: 100%;
-    overflow-y: auto;
-    -webkit-overflow-scrolling:touch}
-
-jsv-menu-left jsv-content ul{
+jsv-menu-left jsv-menu{
     padding: 0;
     margin: 0;
-    padding-left: 10px;
-    list-style-type: none}
+    padding-left: 10px}
 
-jsv-menu-left jsv-content ul li{
+jsv-menu-left jsv-menu jsv-option{
     width: 100%;
     border-bottom: 1px solid #ddd;
     padding: 10px;
-    padding-left: 10px}
+    margin-left: 10px;
+    float: left}
 /*-----------------*/
 
-/*Clases para el menu bottom*/
+/*Menu bottom*/
 jsv-menu-bottom{
     position: absolute;
     width: 100%;
@@ -230,22 +271,33 @@ jsv-menu-bottom{
     overflow:auto;
     z-index: 0}
 
-jsv-menu-bottom jsv-content{
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
+jsv-menu-bottom jsv-menu{
+    padding: 0 !important;
+    margin: 0 !important;
+    list-style-type: none;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 5px;
     width: 100%}
 
-jsv-menu-bottom jsv-content ul{
-    list-style-type: none}
-
-jsv-menu-bottom jsv-content ul li{
-    padding: 0;
-    margin: 0;
+jsv-menu-bottom jsv-menu jsv-option{
     float: left;
+    text-align: center;
     height: 43px;
     font-size: 12px;
-    line-height: 33px}
+    line-height: 33px;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: block;
+    width: 100%}
 /*-----------------*/
 
 /*Lists*/
@@ -268,7 +320,7 @@ jsv-list li{
 jsv-list li.divider{
     background-color: #f5f5f5}
 
-/*Design list Photo*/
+/*List Photo*/
 jsv-list.photo-list ul li{
     padding: 10px;
     border: none;
@@ -304,7 +356,7 @@ jsv-list.photo-list ul li .tools .col{
     font-weight: 500;
     padding-left: 0}
 
-/*Design Cards*/
+/*List cards*/
 jsv-list.card-list{
     padding: 10px}
 
@@ -349,7 +401,7 @@ jsv-list.card-list ul li .tools .col{
     font-weight: 500;
     padding-left: 0}
 
-/*Design Room*/
+/*Chat room*/
 button-header-right .photo{
     position: absolute;
     bottom: 5px;
@@ -446,7 +498,7 @@ jsv-room-input button{
     padding: 5px;
     float: right}
 
-/*Clases Rows Cols*/
+/*Rows and cols*/
 .col{
     -webkit-box-flex: 1;
     -webkit-flex: 1;
@@ -476,7 +528,7 @@ jsv-room-input button{
     background: #f7f7f7;
     text-align: center}
 
-/*Clases para el spinner en scroll y modal*/
+/*Spinner in scroll and modal*/
 #JSVcontainerLoading{
     top: 0px;
     background-color:rgba(0,0,0,0.6)}
@@ -519,7 +571,7 @@ jsv-room-input button{
     fill: #ccc}
 /*-----------------*/
 
-/*Clases para los slides*/
+/*Slides*/
 .JSVindicator ul, .JSVindicator li {
 	padding:10px;
 	margin:0}
@@ -580,7 +632,7 @@ jsv-room-input button{
 	margin:0}
 /*-----------------*/
 
-/*Clases para las animaciones de pantalla*/
+/*Divs translate and transition*/
 .JSVcontainerLeft{
     -webkit-transform: translate3d(-100%, 0, 0);
     transform: translate3d(-100%, 0, 0)}
