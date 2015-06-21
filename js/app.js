@@ -10,7 +10,6 @@ window.addEventListener('load', function() {
             controler: 'menu'
         },
         */
-        
         menu: {
             url: '/menu',
             template: 'views/menuBottom.html',

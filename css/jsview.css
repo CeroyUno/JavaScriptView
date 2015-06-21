@@ -64,7 +64,7 @@ jsv-main, jsv-container, jsv-view{
     z-index: 9}
 
 .JSVcontainerBackground{
-    z-index: 0}
+    z-index: -1}
 
 .jsv-main-bottom, .jsv-view-bottom{
     bottom: 44px;
@@ -143,18 +143,17 @@ button{
     border: 1px solid #ddd;
     font-size: 14px}
 
-input{
+input, textarea{
     width: 100%;
     height: 42px;
     padding-left: 10px;
-    border: 1px solid #ddd;
-    border-radius: 2px}
+    border: none}
 
 .paddingFull10{
     padding: 10px}
 
 .paddingFull20{
-    padding: 10px}
+    padding: 20px}
 
 jsv-header button-header-right{
     position: absolute;
@@ -219,7 +218,11 @@ jsv-content jsv-tab{
     bottom: 0px;
     width: 100%;
     overflow-y: auto;
-    -webkit-overflow-scrolling:touch}
+    -webkit-overflow-scrolling:touch;
+    z-index: 0}
+
+jsv-content jsv-tab.active{
+    z-index: 9}
 
 .jsv-no-border{
     border: none !important}

@@ -1,26 +1,25 @@
 /*
-Hola y bienvenid@ a JavaScriptView
+Hi Developer, this is JavaScriptView
 
-JavaScriptView es un proyecto opensource, por lo que puedes utilizarlo, modificarlo y adaptarlo a tus necesidades. Nos gustaría saber algo más y que nos enviaras ejemplos de apps que crees con este framework.
+JavaScriptView is an open source project, you can use, modify and adapt it to your needs. Your help is important to improve it.
 
-Queremos que entres en el equipo y que colabores con este pequeño framework. Puedes enviarnos un email a contact@javascriptview.com
+We want you in the team and collaborate with this little framework. You can email us at contact@javascriptview.com
 
-Gracias!
+Thanks!
 */
 
-//Declaración de variables Globales
+//Global vars
 var JSVFullSpinner, JSVStatusFullSpinner = false, JSVActualView, statusActionMenuSide = false, typeProject, tempDevice = 'iOS';
 
-//Variable array que guarda los htmls de cada view cargado por ajax
+//This array save of each view
 var JSVDeclareViews = new Array();
 
-//Variable array que guarda los htmls de cada view cargado por ajax
+//This array save code html of each view ajax loaded
 var JSVContainersViews = new Array();
 
-//Inicializamos el componente, recorriendo y creando todas las vistas y la modal loading
 $JSView = {
     run: function(type){
-        //Obtenemos el tipo de dispositivo para cambiar el alto de la cabecera en el caso de iOS
+        //We get the type of device to change the height of the head in the case of iOS
         if(tempDevice == 'iOS'){
             var style = document.createElement('style');
             style.type = 'text/css';
@@ -31,26 +30,26 @@ $JSView = {
             document.getElementsByTagName('head')[0].appendChild(style); 
         }
         
-        //Cargamos FastClick
+        //Load FastClick
         new FastClick(document.body);
-        //Guardamos el tipo de proyecto que es, (null,left,bottom)
+        //Save type proyect, now we can (null,left,bottom), this corresponds to the menu.
         typeProject = type;
-        //Añadimos la capa del spinner a full en el dom
+        //Add full spinner div in dom
         $v.select('body').innerHTML += spinnerModal;
-        //Guardamos la referencia a la capa del spinner full en una variable global
+        //Save the reference full spinner div in global var
         JSVfullLoading = $v.select('#JSVcontainerLoading');
     },
     declareView: function(e){
-        //Recorremos el json de todas las vistas declaradas
+        //Read json of all views declared
         for(var obj in e){
-            //Creamos los contenedores de todas las vistas externas a jsv-main
+            //Create the container of all external views to jsv-main
             if(!$v.select('#' + obj)){
-                //Añadimos a body o al contenedor el elemento jsv-view de la vista
+                //Add to body or container the element jsv-view of the view
                 $v.select('body').innerHTML += '<jsv-view id="' + obj + '"></jsv-view>';
-                //Colocamos todos los contenedores fuera de cámara
+                //Put all containers out of camera
                 $v.select('#' + obj).classList.add('JSVcontainerRight');
                 $v.select('#' + obj).classList.add('JSVcontainerTransition');
-                //Guardamos en un array las vistas declaradas con las opciones (url, template, controlador, ...)
+                //Save in the array the views declared with its options (url, template, controlator, ...)
                 if(e.hasOwnProperty(obj)){
                     JSVDeclareViews[obj] = e[obj];
                 }
@@ -59,21 +58,24 @@ $JSView = {
         }
     },
     initView: function(e){
-        //Asignamos la vista actual en una variable global
+        //Assign actual view to global var
         JSVActualView = e;
-        //Colocamos la vista actual dentro de cámara
+        //Put actual view into camera :)
         $v.select('#' + e).classList.remove('JSVcontainerRight');
         $v.select('#' + e).classList.add('JSVcontainerCenter');
         $v.select('#' + e).classList.remove('JSVcontainerBackground');
         $v.select('#' + e).classList.add('JSVcontainerForeground');
-        //Leemos el template
+        //Read the template
         $JSVRequest.do(e,JSVDeclareViews[e].template,true);
         window.history.pushState(e, "Titulo", '/www/index.html#' + e);
     },
     dataView: function(obj,e) {
-        console.log('dataView obj -> ' + obj);
+
+        console.group('dataView obj -> ' + obj);
+        console.time('dataView');
         console.log('dataView e -> ' + e);
         console.log('dataView JSVContainersViews[e] -> ' + JSVContainersViews[e]);
+        
         var contentView = JSVContainersViews[e];
         for (var x in obj) {
             console.log(x);
@@ -81,45 +83,42 @@ $JSView = {
             if(!obj[x]) obj[x]='';
             contentView = contentView.replace(new RegExp(x, 'g'), obj[x]);
         }
-        //Eliminamos el contenido anterior del contenedor
+        //Remove the previous contents of the container
         $v.select('#' + e).innerHTML = ''
-        //Añadimos el contenido nuevo al contenedor
+        //Add the new contents of the container
         $v.select('#' + e).innerHTML += contentView;
+        
+        console.timeEnd('dataView');
+        console.groupEnd();
+        
     },
     goToView: function(e){
         
         console.group('goToView e -> ' + e);
         console.time('goToView');
         
-        //Si el padre de la vista SÍ es jsv-main, movemos a la izquerda jsv-main
+        //If the parent of this view YES is jsv-main, we move jsv-main to the left
         if($v.select('#' + JSVActualView).parentNode.tagName.toLowerCase() == 'jsv-container'){
-            //Colocamos la vista actual fuera de cámara
+            //Put the actual view out of camera
             $v.select('jsv-main').classList.add('JSVcontainerLeft')
             $v.select('jsv-main').classList.remove('JSVcontainerCenter')
-            //Colocamos la nueva vista dentro de cámara
+            //Put the new view into the camera
             $v.select('#' + e).classList.add('JSVcontainerCenter')
             $v.select('#' + e).classList.remove('JSVcontainerRight')
-        //Si el padre de la vista NO es jsv-main, movemos a la izquerda la vista
+        //If the parent of this view NO is jsv-main, we move this view to the left
         }else{
-            //Colocamos la vista actual fuera de cámara
+            //Put the actual view out the camera
             $v.select('#' + JSVActualView).classList.add('JSVcontainerLeft')
             $v.select('#' + JSVActualView).classList.remove('JSVcontainerCenter')
-            //Colocamos la nueva vista dentro de cámara
+            //Put the new view into the camera
             $v.select('#' + e).classList.add('JSVcontainerCenter')
             $v.select('#' + e).classList.remove('JSVcontainerRight')
         }
-        //Eliminamos el contenido anterior del contenedor
-        //$v.select('#' + e).innerHTML = ''
-        //Añadimos el contenido de la vista al contenedor
-        //$v.select('#' + e).innerHTML += JSVContainersViews[e];
-        //Asignamos la vista actual en una variable global
+        //Assign actual view to global var
         JSVActualView = e;
-        /*-------------------REFERENCIA PARA TEST AL CONTROLADOR----------------------*/
-        console.log('Antes de llamar al controlador');
+        //Execute the function controller of this view
         eval( '$JSView.controller.' + e + '("' + e + '")' );
-        console.log('Después de llamar al controlador');
-        /*-------------------REFERENCIA PARA TEST AL CONTROLADOR----------------------*/
-        //Cambiamos la url del state
+        //Change the url
         window.history.pushState(e, '', '/www/index.html#' + e);
         
         console.timeEnd('goToView');
@@ -127,7 +126,7 @@ $JSView = {
         
     },
     declareMenu: function(e){
-        //Si añadimos el componente jsv-main a body (Esto es por que queremos un menú)
+        //If we add the jsv-main component to body (This is why we want a menu)
         $v.select('body').innerHTML = '<jsv-main></jsv-main>';
         $v.select('jsv-main').innerHTML = '<jsv-container></jsv-container>';
         $v.select('jsv-main').classList.add('JSVcontainerCenter');
@@ -135,17 +134,17 @@ $JSView = {
         $v.select('jsv-container').classList.add('jsv-main-' + typeProject);
         $v.select('jsv-container').classList.add('JSVcontainerCenter');
         $v.select('jsv-container').classList.add('JSVcontainerTransition');
-        //Recorremos el json de todas las vistas declaradas
+        //Read json of all views declared
         for(var obj in e){
             if(obj == 'menu'){
                 $v.select('jsv-main').innerHTML += '<jsv-menu-' + typeProject + ' id="' + obj + '"></jsv-menu-' + e[obj].type + '>';
                 $JSVRequest.do(obj, e[obj].template, true);
             }else{
-                //Añadimos al contenedor el elemento jsv-view de la vista
+                //Add the container the jsv-vew element of the view
                 $v.select('jsv-container').innerHTML += '<jsv-view id="' + obj + '"></jsv-view>';
-                //Colocamos todos los contenedores fuera de cámara
+                //Put all containers out the camera
                 $v.select('#' + obj).classList.add('JSVcontainerBackground');
-                //Guardamos en un array las vistas declaradas con las opciones (url, template, controlador, ...)
+                //Save in array the views declarated with its options (url, template, controlator, ...)
                 if(e.hasOwnProperty(obj)){
                     JSVDeclareViews[obj] = e[obj];
                 }
@@ -154,16 +153,16 @@ $JSView = {
         }
     },
     declareModal: function(e,options){
-        //Recorremos el json de todas las modales declaradas
+        //Read json of all views modal declared
         for(var obj in e){
-            //Creamos los contenedores de todas las vistas externas a jsv-main
+            //Create the content of all external views to jsv-main
             if(!$v.select('#' + obj)){
-                //Añadimos a body o al contenedor el elemento jsv-view de la vista
+                //Add to body or container the element jsv-view
                 $v.select('body').innerHTML += '<jsv-modal id="' + obj + '"></jsv-modal>';
-                //Colocamos todos los contenedores fuera de cámara
+                //Put all containers out the camera
                 $v.select('#' + obj).classList.add('JSVcontainerBottom');
                 $v.select('#' + obj).classList.add('JSVcontainerTransition');
-                //Guardamos en un array las vistas declaradas con las opciones (url, template, controlador, ...)
+                //Save in array the views declarated with its options (url, template, controlator, ...)
                 if(e.hasOwnProperty(obj)){
                     JSVDeclareViews[obj] = e[obj];
                 }
@@ -172,36 +171,29 @@ $JSView = {
         }
     },
     openModal: function(e){
-        //Cambiamos las clases para mostrar la modal
+        //Change the class and show modal div
         $v.select('#' + e).classList.add('JSVcontainerCenter')
         $v.select('#' + e).classList.remove('JSVcontainerBottom')
-        //Eliminamos el contenido anterior del contenedor
-        //$v.select('#' + e).innerHTML = ''
-        //Añadimos el contenido nuevo al contenedor
-        //$v.select('#' + e).innerHTML += JSVContainersViews[e];
-        //Asignamos la vista actual en una variable global
+        //Assign actual view to global var
         JSVActualView = e;
-        /*-------------------REFERENCIA PARA TEST AL CONTROLADOR----------------------*/
-        console.log('Antes de llamar al controlador');
+        //Execute the function controller of this view
         eval( '$JSView.controller.' + e + '("' + e + '")' );
-        console.log('Después de llamar al controlador');
-        /*-------------------REFERENCIA PARA TEST AL CONTROLADOR----------------------*/
-        //Cambiamos la url del state
+        //Change the url
         window.history.pushState(e, '', '/www/index.html#'+e);
     },
     closeModal: function(e){
-        //Cambiamos las clases para ocultar la modal
+        //Change the class and hide modal
         $v.select('#' + e).classList.add('JSVcontainerBottom')
         $v.select('#' + e).classList.remove('JSVcontainerCenter')
-        //Volvemos a la url del state anterior
+        //Return to previous url
         window.history.back()
         setTimeout(function(){
-            //Asignamos la vista actual en una variable global
+            //Assign actual view to global var
             JSVActualView = window.history.state
         },0);
     },
     back: function(){
-        //Volvemos a la url del state anterior
+        //Return to previous url
         window.history.back();
         setTimeout(function(){
             console.log(window.history.state);
@@ -209,48 +201,40 @@ $JSView = {
         },0);
     },
     returnTo: function(e){
-        //Si el padre de la vista SÍ es jsv-main, movemos al centro jsv-main
+        //If parent of view YES is jsv-main, move to center jsv-main
         if($v.select('#' + e).parentNode.tagName.toLowerCase() == 'jsv-container'){
-            //Colocamos la vista actual fuera de cámara
+            //Put all containers out the camera
             $v.select('#' + JSVActualView).classList.add('JSVcontainerRight')
             $v.select('#' + JSVActualView).classList.remove('JSVcontainerCenter')
-            //Colocamos la nueva vista dentro de cámara
+            //Put the new view into camera
             $v.select('jsv-main').classList.add('JSVcontainerCenter')
             $v.select('jsv-main').classList.remove('JSVcontainerLeft')
-        //Si el padre de la vista NO es jsv-main, movemos al centro la vista
+        //If parent of view is NOT jsv-main, move to center the view
         }else{
-            //Colocamos la vista actual fuera de cámara
+            //Put all containers out the camera
             $v.select('#' + JSVActualView).classList.add('JSVcontainerRight')
             $v.select('#' + JSVActualView).classList.remove('JSVcontainerCenter')
-            //Colocamos la nueva vista dentro de cámara
+            //Put the new view into camera
             $v.select('#' + e).classList.add('JSVcontainerCenter')
             $v.select('#' + e).classList.remove('JSVcontainerLeft')
         }
-        //Asignamos la vista actual en una variable global
+        //Assign actual view to global var
         JSVActualView = e
     },
     actionMenu: function(e){
-        //Si ejecutamos actionMenu con un valor en e, es que queremos cambiar la vista interna de jsv-main
+        //If execute actionMenu with value in e, is that we want chante the intern view of jsv-main
         if (typeof e != 'undefined') {
             $v.select('jsv-container .JSVcontainerForeground').classList.add('JSVcontainerBackground');
             $v.select('jsv-container .JSVcontainerForeground').classList.remove('JSVcontainerForeground');
             $v.select('#' + e).classList.remove('JSVcontainerBackground');
             $v.select('#' + e).classList.add('JSVcontainerForeground');
-            //Eliminamos el contenido anterior del contenedor
-            //$v.select('#' + e).innerHTML = ''
-            //Añadimos el contenido nuevo al contenedor
-            //$v.select('#' + e).innerHTML += JSVContainersViews[e];
-            //Asignamos la vista actual en una variable global
+            //Assign actual view to global var
             JSVActualView = e;
-            /*-------------------REFERENCIA PARA TEST AL CONTROLADOR----------------------*/
-            console.log('Antes de llamar al controlador');
             eval( '$JSView.controller.' + e + '("' + e + '")' );
-            console.log('Después de llamar al controlador');
-            /*-------------------REFERENCIA PARA TEST AL CONTROLADOR----------------------*/
-            //Cambiamos la url del state
+            //Change the url
             window.history.pushState(e, '', '/www/index.html#'+e);
         }
-        //Si el menu es left y tiene que abrir entra
+        //If is the left menu enter here
         if(typeProject == 'left'){
             if(statusActionMenuSide == false){
                 $v.select('jsv-container').classList.add('JSVcontainerLeftMenuSide')
@@ -263,14 +247,14 @@ $JSView = {
             }
         }
     },
-    //Esta función parsea los a y aplica un onclick para abrir con inappbrowser de cordova
+    //This function read all 'a' element and create event onclick to open inappbrowser plugin cordova
     parseAllLink: function(e){
         $v('a').each(function() {
             $v( this ).attr( "onclick", "window.open('"+$v( this ).attr("href")+"', '_blank', 'location=yes')");
             $v( this ).removeAttr("href");
         }); 
     },
-    //Esta función permite abrir las alertas con notification de cordova
+    //This function open alert native plugin cordova
     openDialog: function(message,title,button){
         navigator.notification.alert(
             message, // message
@@ -279,12 +263,12 @@ $JSView = {
             button   // buttonName
         );
     },
-    //Esta función nos permite crear los slides
+    //This function create slides
     initSlide: function(e, options){
         var elements = $v.selectAll(e + ' .JSVscroller ul li');
         var numberElement;
         var maxWidth;
-        /*Asignamos el ancho*/
+        //Asign width
         if(options.responsive == true){
             //Responsive
             numberElement = elements.length;
@@ -311,7 +295,7 @@ $JSView = {
         }
         /*---------------------*/
 
-        /*Creamos los indicadores*/
+        //Create the indicators
         if(options.indicators == true){
             $v.select(e).innerHTML += '<div class="JVSnav"><ul class="JSVindicator"></ul></div>';
             var indicator = '';
@@ -324,7 +308,7 @@ $JSView = {
         }
         /*---------------------*/
 
-        /*Añadimos el slide al array*/
+        //Add slide to array
         new iScroll(e, {
             snap: true,
             momentum: false,
@@ -338,18 +322,30 @@ $JSView = {
          });
          /*---------------------*/
     },
-    //Esta función nos permite crear los slides
+    //This function start the tabs
     initTabs: function(e, options){
         for (var i = 0; i < $v.selectAll('jsv-tabs jsv-tab').length; ++i) {
             $v.selectAll('jsv-tabs jsv-tab')[i].addEventListener('click', function() { 
-                $v.select('jsv-tabs > jsv-tab.active').classList.remove('active');
+                
+                //Active the tab touched
+                $v.select('#' + e + ' jsv-tabs > jsv-tab.active').classList.remove('active');
                 this.classList.add('active');
+                
+                //Active jsv-content of asigned jsv-tab
+                litems=this.parentNode.getElementsByTagName('jsv-tab') 
+                for (i=0;i<litems.length;i++){ 
+                    if (litems.item(i)==this){ 
+                        $v.select('#' + e + ' jsv-content > jsv-tab.active').classList.remove('active');
+                        $v.selectAll('#' + e + ' jsv-content > jsv-tab')[i].classList.add('active');
+                    } 
+                }
+            
             }, false);  
         }
     }
 }
 
-//Función que nos permite mostrar y ocultar la modal loading
+//This function show or hide modal Spinner
 $JSVspinner = {
     show: function(){
         JSVfullLoading.classList.add('JSVshowLoading')
@@ -382,80 +378,6 @@ $v = {
 /****************/
 /****************/
 /****************/
-/***CODE SLIDE***/
-
-//Función para ir para adelante
-//myScroll.scrollToPage('next', 0);
-//Función para ir atrás
-//myScroll.scrollToPage('prev', 0);
-
-//Contenedor, Responsive, Indicadores
-
-$JSVslide = {
-    create: function(e, options){
-        var elements = $v.selectAll(e + ' .JSVscroller ul li');
-        var numberElement;
-        var maxWidth;
-        /*Asignamos el ancho*/
-        if(options.responsive == true){
-            //Responsive
-            numberElement = elements.length;
-            maxWidth = $v.select(e).parentElement.offsetWidth;
-            maxHeight = $v.select(e).parentElement.offsetHeight;
-            var divs = $v.selectAll(e + ' .JSVscroller ul li');
-            for (var i = 0; i < numberElement; ++i) {
-                $v.selectAll(e + ' .JSVscroller ul li')[i].style.width = maxWidth + 'px';
-                $v.selectAll(e + ' .JSVscroller ul li')[i].style.height = maxHeight + 'px';
-            }
-            $v.select(e + ' .JSVscroller').style.width = (maxWidth * numberElement) + 'px';
-        }else if(options.width && options.height){
-            //Absolute
-            $v.select(e).style.width = options.width + 'px';
-            $v.select(e).style.height = options.height + 'px' ;
-            numberElement = elements.length;
-            maxWidth = options.width;
-            for (var i = 0; i < numberElement; ++i) {
-                $v.selectAll(e + ' .JSVscroller ul li')[i].style.width = maxWidth + 'px';
-            }
-            $v.select(e + ' .JSVscroller').style.width = (maxWidth * numberElement) + 'px';
-        }else{
-            console.warn("Debes definir un diseño responsive o absoluto con width y eight.")   
-        }
-        /*---------------------*/
-
-        /*Creamos los indicadores*/
-        if(options.indicators == true){
-            $v.select(e).innerHTML += '<div class="JVSnav"><ul class="JSVindicator"></ul></div>';
-            var indicator = '';
-            for (var i = 1; i <= numberElement; i++){
-                if ( i == 1) indicator += '<li class="active">' + i + '</li>';
-                else indicator += '<li>' + i + '</li>';
-            }
-            $v.select('.JSVindicator').innerHTML = indicator;
-            $v.select('.JSVindicator').style.paddingLeft = (maxWidth - this.innerWidth) + 'px';
-        }
-        /*---------------------*/
-
-        /*Añadimos el slide al array*/
-        new iScroll(e, {
-            snap: true,
-            momentum: false,
-            hScrollbar: false,
-            onScrollEnd: function () {
-                if(options.indicators == true){
-                    $v.select('.JSVindicator > li.active').className = '';
-                    $v.select('.JSVindicator > li:nth-child(' + (this.currPageX+1) + ')').className = 'active';
-                }
-            }
-         });
-         /*---------------------*/
-    }
-}
-/*---------------------*/
-
-/****************/
-/****************/
-/****************/
 /******AJAX******/
 $JSVRequest = {
     do: function(e,url,viewInit){
@@ -463,17 +385,13 @@ $JSVRequest = {
         http_request.onreadystatechange = function(url){
             if (http_request.readyState == 4) {
                 if (http_request.status == 200 || http_request.status == 0) {
-                    //Guardamos en el array la vista
+                    //Save the view in array
                     JSVContainersViews[e] = http_request.responseText;
-                    //Si el valor de viewInit es true es que hay que ejecutarlo al inicio
+                    //If value of viewInit is true, then must run to start
                     if (viewInit == true){
                         console.group('$JSVRequest e -> ' + e);
                         console.time('$JSVRequest');
-                        /*-------------------REFERENCIA PARA TEST AL CONTROLADOR----------------------*/
-                        console.log('Antes de llamar al controlador');
                         eval( '$JSView.controller.' + e + '("' + e + '")' );
-                        console.log('Después de llamar al controlador');
-                        /*-------------------REFERENCIA PARA TEST AL CONTROLADOR----------------------*/
                         console.timeEnd('$JSVRequest');
                         console.groupEnd();
                     }
