@@ -14,6 +14,19 @@ $JSView.controller = {
         $JSView.dataView({
             '{{title}}': 'Title Menu C'
         },e)
+        
+        $JSView.initRefresh(e);
+        
+        $JSView.initLoadMore(e);
+        
+        $JSView.loadMore({
+            '{{name}}': 'User 1',
+            '{{description}}': 'Lorem ipsum dolor sit amet.',
+            '{{name}}': 'User 2',
+            '{{description}}': 'Eaque ipsa quae ab illo inventore.',
+            '{{name}}': 'User 3',
+            '{{description}}': 'But I must explain to you how.'
+        },e);
     },
     viewMenuD: function(e){
         $JSView.dataView({
@@ -61,6 +74,12 @@ $JSView.controller = {
     viewE: function(e){
         $JSView.dataView({
             '{{title}}': 'Title E'
+        },e)
+        $JSView.initTabs(e);
+    },
+    viewF: function(e){
+        $JSView.dataView({
+            '{{title}}': 'Title F'
         },e)
         $JSView.initTabs(e);
     },

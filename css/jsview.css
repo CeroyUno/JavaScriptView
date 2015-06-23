@@ -302,7 +302,7 @@ jsv-menu-bottom jsv-menu jsv-option{
 /*-----------------*/
 
 /*LOADMORE RELOAD*/
-jsv-reload{
+jsv-refresh{
     width: 100%;
     height: 30px;
     position: absolute;

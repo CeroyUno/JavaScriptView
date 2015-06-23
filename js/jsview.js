@@ -69,7 +69,7 @@ $JSView = {
         $JSVRequest.do(e,JSVDeclareViews[e].template,true);
         window.history.pushState(e, "Titulo", 'index.html#' + e);
     },
-    dataView: function(obj,e) {
+    dataView: function(obj, e) {
 
 //        console.group('dataView obj -> ' + obj);
 //        console.time('dataView');
@@ -346,8 +346,83 @@ $JSView = {
             
             }, false);  
         }
+    },
+    initRefresh: function(e){
+        console.log('initDoRefresh');
+        $v.select('jsv-refresh').innerHTML = spinner;
+    },
+    initLoadMore: function(e){
+        
+        console.log('initLoadMore');
+        console.group('initLoadMore e -> ' + e);
+        
+        item = $v.select('#' + e + ' jsv-content jsv-list jsv-item');
+        
+        $v.select('jsv-loadmore').innerHTML = spinner;
+        
+        $v.select('#' + e + ' jsv-content').onscroll = function(){
+            //console.log('window.height -> ' + $v.select('#' + e + ' jsv-content').offsetHeight);
+            //console.log('window.scrollHeight -> ' + $v.select('#' + e + ' jsv-content').scrollHeight);
+            //console.log('window.scrollTop -> ' + $v.select('#' + e + ' jsv-content').scrollTop);
+            if(($v.select('#' + e + ' jsv-content').offsetHeight + $v.select('#' + e + ' jsv-content').scrollTop) == $v.select('#' + e + ' jsv-content').scrollHeight){
+                //console.log('FIN')
+                //$JSView.loadMore(item)
+                //return true
+            }
+            
+        }
+        
+        //$v.select('#' + e + ' jsv-content jsv-list ul').appendChild('<li>HOLA</li>');
+        //$v.select('#' + e + ' jsv-content jsv-list ul').insertAdjacentHTML('afterend',JSVContainersViews[e]);
+        
+        console.groupEnd();
+        
+    },
+    loadMore: function(obj, e){
+        
+        console.log('loadMore');
+        console.group('loadMore obj -> ' + obj);
+        console.groupEnd();
+        
+        console.group('dataView obj -> ' + obj);
+        console.time('dataView');
+        console.log('dataView e -> ' + e);
+        console.log('dataView JSVContainersViews[e] -> ' + JSVContainersViews[e]);
+        
+        item = $v.select('#' + e + ' jsv-content jsv-list').innerHTML;
+        
+        var contentView = item;
+        for (var x in obj) {
+            console.log(x);
+            console.log(obj[x]);
+            if(!obj[x]) obj[x]='';
+            contentView = contentView.replace(new RegExp(x, 'g'), obj[x]);
+        }
+        //Remove the previous contents of the container
+        $v.select('#' + e + ' jsv-content jsv-list').innerHTML = ''
+        //Add the new contents of the container
+        $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
+        
+        console.timeEnd('dataView');
+        console.groupEnd();
+        
     }
 }
+
+/*
+function loadMore(e, item){
+    var items;
+    console.log(item);
+    for (var i=0; i<11; i++){
+        console.log(i);
+        items += item; 
+        //$v.select('#' + e + ' jsv-content jsv-list').appendChild(item);
+    }
+    //console.log(items);
+    //$v.select('#' + e + ' jsv-content jsv-list').appendChild(items);
+    $v.select('#' + e + ' jsv-content jsv-list').insertAdjacentHTML('afterend', items);
+}
+*/
 
 //This function show or hide modal Spinner
 $JSVspinner = {

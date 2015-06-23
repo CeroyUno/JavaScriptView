@@ -68,6 +68,11 @@ window.addEventListener('load', function() {
             url: '/viewE',
             template: 'views/viewE.html',
             controler: 'viewE'
+        },
+        viewF: {
+            url: '/viewF',
+            template: 'views/viewF.html',
+            controler: 'viewF'
         }
     });
     
@@ -80,7 +85,7 @@ window.addEventListener('load', function() {
     });
     
     $JSView
-        .initView('viewMenuA');
+        .initView('viewMenuC');
     
 
 }, false);
