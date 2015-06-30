@@ -7,39 +7,39 @@ window.addEventListener('load', function() {
         menu: {
             url: '/menu',
             template: 'views/menuLeft.html',
-            controler: 'menu'
+            controller: 'menu'
         },
         */
         menu: {
             url: '/menu',
             template: 'views/menuBottom.html',
-            controler: 'menu'
+            controller: 'menu'
         },
         
         viewMenuA: {
             url: '/viewMenuA',
             template: 'views/viewMenuA.html',
-            controler: 'viewMenuA'
+            controller: 'viewMenuA'
         },
         viewMenuB: {
             url: '/viewMenuB',
             template: 'views/viewMenuB.html',
-            controler: 'viewMenuB'
+            controller: 'viewMenuB'
         },
         viewMenuC: {
             url: '/viewMenuC',
             template: 'views/viewMenuC.html',
-            controler: 'viewMenuC'
+            controller: 'viewMenuC'
         },
         viewMenuD: {
             url: '/viewMenuD',
             template: 'views/viewMenuD.html',
-            controler: 'viewMenuD'
+            controller: 'viewMenuD'
         },
         viewMenuE: {
             url: '/viewMenuE',
             template: 'views/viewMenuE.html',
-            controler: 'viewMenuE'
+            controller: 'viewMenuE'
         }
     });
     
@@ -47,32 +47,32 @@ window.addEventListener('load', function() {
         viewA: {
             url: '/viewA',
             template: 'views/viewA.html',
-            controler: 'viewA'
+            controller: 'viewA'
         },
         viewB: {
             url: '/viewB',
             template: 'views/viewB.html',
-            controler: 'viewB'
+            controller: 'viewB'
         },
         viewC: {
             url: '/viewC',
             template: 'views/viewC.html',
-            controler: 'viewC'
+            controller: 'viewC'
         },
         viewD: {
             url: '/viewD',
             template: 'views/viewD.html',
-            controler: 'viewD'
+            controller: 'viewD'
         },
         viewE: {
             url: '/viewE',
             template: 'views/viewE.html',
-            controler: 'viewE'
+            controller: 'viewE'
         },
         viewF: {
             url: '/viewF',
             template: 'views/viewF.html',
-            controler: 'viewF'
+            controller: 'viewF'
         }
     });
     
@@ -80,7 +80,7 @@ window.addEventListener('load', function() {
         modalA: {
             url: '/modal',
             template: 'views/modal.html',
-            controler: 'modal'
+            controller: 'modal'
         }
     });
     
