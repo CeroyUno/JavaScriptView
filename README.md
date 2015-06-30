@@ -3,7 +3,7 @@ JSView Framework to develop web mobile application which uses View Controller pa
 
 contact@javascriptview.com
 
-Designed and built with all the love in the world by <a href="https://twitter.com/JoseJ_PR" target="_blank">@JoseJ_PR</a> and <a href="https://twitter.com/Neojv" target="_blank">@Neojv</a>.
+Designed and built with all the love in the world by <a href="https://twitter.com/JoseJ_PR" target="_blank">@JoseJ_PR</a>, <a href="https://twitter.com/Neojv" target="_blank">@Neojv</a>, <a href="https://twitter.com/emiliodemanuel" target="_blank">@emiliodemanuel</a> and <a href="https://twitter.com/juanserranoga" target="_blank">@juanserranoga</a>.
 
 Maintained by the <a href="https://github.com/CeroyUno/JavaScriptView/network/members" target="_blank">core</a> team with the help of <a href="https://github.com/CeroyUno/JavaScriptView/graphs/contributors" target="_blank">our contributors</a>.
 
