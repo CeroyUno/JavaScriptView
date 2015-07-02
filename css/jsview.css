@@ -351,7 +351,10 @@ jsv-list.photo-list jsv-item h3 span{
 
 jsv-list.photo-list jsv-item p{
     line-height: 20px;
-    margin: 0px}
+    margin: 0px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis}
 
 jsv-list.photo-list jsv-item .tools{
     padding: 0;

@@ -389,12 +389,20 @@ $JSView = {
             }, false);  
         }
     },
+    //This function will start refresh in scroll
     initRefresh: function(e){
         console.log('initDoRefresh');
         $v.select('jsv-refresh').innerHTML = spinner;
     },
-    loadMore: function(obj, e){
-    
+    //This function start loadmore in scroll
+    initLoadMore: function(obj, e){
+        //THIS FUNCTION IS NOW IN TEST
+        //obj -> type, url, header, data, increase
+        //Now only can use "type" and "url"
+        
+        console.group('loadMore');
+        console.time('loadMore');
+        
         //Add spinner
         $v.select('#' + e + ' jsv-content jsv-loadmore').innerHTML = spinner;
         
@@ -404,66 +412,96 @@ $JSView = {
         //Remove the previous contents of the container
         $v.select('#' + e + ' jsv-content jsv-list').innerHTML = ''
         
-        $JSView.loadMoreAgain(obj, e, item);
+        var contentView;
+        $JSView.query(obj.type, obj.url).then(function(result) {
+            //Code depending on result
+            console.log(JSON.parse(result));
+            
+            console.group('query');
+            console.time('query');
+            contentView = '';
+            var resultQuery = JSON.parse(result);
+            for (key in resultQuery) {
+                itemInter = item;
+                for (var x in resultQuery[key]) {
+                    if(!resultQuery[key][x]) resultQuery[key][x]='';
+                    itemInter = itemInter.replace(new RegExp('{{'+x+'}}', 'g'), resultQuery[key][x]);
+                }
+                contentView += itemInter;
+            }
+
+            //Add the new contents of the container
+            $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
+
+            console.timeEnd('query');
+            console.groupEnd();
+            
+        }).catch(function() {
+            //An error occurred
+            console.log('An error occurred');
+        });
         
         $v.select('#' + e + ' jsv-content').onscroll = function(){
             //console.log('window.height -> ' + $v.select('#' + e + ' jsv-content').offsetHeight);
             //console.log('window.scrollHeight -> ' + $v.select('#' + e + ' jsv-content').scrollHeight);
             //console.log('window.scrollTop -> ' + $v.select('#' + e + ' jsv-content').scrollTop);
             if(($v.select('#' + e + ' jsv-content').offsetHeight + $v.select('#' + e + ' jsv-content').scrollTop) == $v.select('#' + e + ' jsv-content').scrollHeight){
-                console.log('FIN')
-                $JSView.loadMoreAgain(obj, e, item)
-                return false
+                
+            $JSView.query(obj.type, obj.url).then(function(result) {
+                //Code depending on result
+                console.log(JSON.parse(result));
+
+                console.group('query');
+                console.time('query');
+                contentView = '';
+                var resultQuery = JSON.parse(result);
+                for (key in resultQuery) {
+                    itemInter = item;
+                    for (var x in resultQuery[key]) {
+                        if(!resultQuery[key][x]) resultQuery[key][x]='';
+                        itemInter = itemInter.replace(new RegExp('{{'+x+'}}', 'g'), resultQuery[key][x]);
+                    }
+                    contentView += itemInter;
+                }
+
+                //Add the new contents of the container
+                $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
+
+                console.timeEnd('query');
+                console.groupEnd();
+
+            }).catch(function() {
+                // an error occurred
+                console.log('An error occurred');
+            });
+                
             }
             
         }
         
-    },
-    loadMoreAgain: function(obj, e, item){
-        
-        console.log('loadMore');
-        console.group('dataView obj -> ' + obj);
-        console.time('dataView');
-
-        contentView = '';
-        for (key in obj) {
-            itemInter = item;
-            for (var x in obj[key]) {
-                console.log(obj[key][x]);
-                if(!obj[key][x]) obj[key][x]='';
-                itemInter = itemInter.replace(new RegExp('{{'+x+'}}', 'g'), obj[key][x]);
-            }
-            contentView += itemInter;
-        }
-
-        //Add the new contents of the container
-        $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
-        
-        console.timeEnd('dataView');
+        console.timeEnd('loadMore');
         console.groupEnd();
         
-    },
-    loadMore2: function(obj, e){
-    
-        
-        
+    },query: function(type, url, header, data){
+        // Return a new promise.
+        return new Promise(function(resolve, reject) {
+            var req = new XMLHttpRequest();
+            req.open(type, url);
+            req.onload = function() {
+                if (req.status == 200 || req.status == 0) {
+                    resolve(req.response);
+                }
+                else {
+                    reject(Error(req.statusText));
+                }
+            };
+            req.onerror = function() {
+                reject(Error("Network Error"));
+            };
+            req.send();
+        }); 
     }
 }
-
-/*
-function loadMore(e, item){
-    var items;
-    console.log(item);
-    for (var i=0; i<11; i++){
-        console.log(i);
-        items += item; 
-        //$v.select('#' + e + ' jsv-content jsv-list').appendChild(item);
-    }
-    //console.log(items);
-    //$v.select('#' + e + ' jsv-content jsv-list').appendChild(items);
-    $v.select('#' + e + ' jsv-content jsv-list').insertAdjacentHTML('afterend', items);
-}
-*/
 
 //This function show or hide modal Spinner
 $JSVspinner = {
@@ -501,30 +539,32 @@ $v = {
 /******AJAX******/
 $JSVRequest = {
     do: function(e,url,viewInit){
-        var http_request = new XMLHttpRequest();
-        http_request.onreadystatechange = function(url){
-            if (http_request.readyState == 4) {
-                if (http_request.status == 200 || http_request.status == 0) {
-                    //Save the view in array
-                    JSVContainersViews[e] = http_request.responseText;
-                    //If value of viewInit is true, then must run to start
-                    if (viewInit == true){
-                        console.group('$JSVRequest e -> ' + e);
-                        console.time('$JSVRequest');
-                        /*Remove eval*/
-                        //eval( '$JSView.controller.' + e + '("' + e + '")' );
-                        $JSView.controller[e](e);
-                        /*-----------*/
-                        console.timeEnd('$JSVRequest');
-                        console.groupEnd();
-                    }
-                } else {
-                    console.error('Can´t load -> ' + url);
+        var req = new XMLHttpRequest();
+        req.open('GET', './' + url, true);
+        req.onload = function() {
+            if (req.status == 200 || req.status == 0) {
+                //Save the view in array
+                JSVContainersViews[e] = req.responseText;
+                //If value of viewInit is true, then must run to start
+                if (viewInit == true){
+                    console.group('$JSVRequest e -> ' + e);
+                    console.time('$JSVRequest');
+                    /*Remove eval*/
+                    //eval( '$JSView.controller.' + e + '("' + e + '")' );
+                    $JSView.controller[e](e);
+                    /*-----------*/
+                    console.timeEnd('$JSVRequest');
+                    console.groupEnd();
                 }
             }
-        }
-        http_request.open('GET', './' + url, true);
-        http_request.send(null);
+            else {
+                console.error('Can´t load -> ' + url);
+            }
+        };
+        req.onerror = function() {
+            reject(Error("Network Error"));
+        };
+        req.send();
     }
 }
 /*---------------------*/
