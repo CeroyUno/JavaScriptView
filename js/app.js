@@ -78,7 +78,12 @@ window.addEventListener('load', function() {
             url: '/viewG',
             template: 'views/viewG.html',
             controller: 'viewG'
-        }
+        },
+        viewH: {
+            url: '/viewH',
+            template: 'views/viewH.html',
+            controller: 'viewH'
+        },
     });
     
     $JSView.declareModal({

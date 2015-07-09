@@ -122,17 +122,33 @@ $JSView.controller = {
         
     },
     viewG: function(e){
+        
         $JSView.dataView({
-            'title': 'Title H'
-        },e)
+            'title': 'Title G'
+        },e),
+
         $JSView.initLoadMore({
             type: 'GET', 
             url:'http://api.javascriptview.com/loadmore'
         },e);
+         
+    },
+    viewH:function(e){        
+
+        $JSView.dataView({
+            'title':'Title H',
+            
+        },e);
+        //in the future it will be a rest call
+        $JSView.loadVideos({
+            'text' : 'Eaque ipsa quae ab illo inventore Eaque ipsa quae ab illo inventore.',
+            'url'  : 'youtube.com',
+            'video': '/img/fixie.jpg'        
+        },e);  
     },
     modalA: function(e){
         $JSView.dataView({
-            'title': 'Title modal A'
+            'title': 'Title modal A',        
         },e)
     },
     menu: function(e){
