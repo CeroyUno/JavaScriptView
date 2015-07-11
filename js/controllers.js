@@ -2,43 +2,43 @@ $JSView.controller = {
     
     viewMenuA: function(e){
         $JSView.dataView({
-            'title': 'Title Menu A'
+            'title': 'Welcome'
         },e)
     },
     viewMenuB: function(e){
         $JSView.dataView({
-            'title': 'Title Menu B'
+            'title': 'Templates'
         },e)
     },
     viewMenuC: function(e){
         $JSView.dataView({
-            'title': 'Title Menu C'
+            'title': 'Examples initLoadMore'
         },e)
     },
     viewMenuD: function(e){
         $JSView.dataView({
-            'title': 'Title Menu D'
+            'title': 'Examples initReload'
         },e)
     },
-    viewMenuE: function(e){
+    viewGeneral: function(e){
         $JSView.dataView({
-            'title': 'Title Menu E'
+            'title': 'General elements'
         },e)
     },
-    viewA: function(e){
+    viewForms: function(e){
         $JSView.dataView({
-            'title': 'Title A'
+            'title': 'Forms elements'
         },e)
     },
-    viewB: function(e){
+    viewGrids: function(e){
         $JSView.dataView({
-            'title': 'Title B'
+            'title': 'Grids'
         },e)
     },
-    viewC: function(e){
+    viewSlide: function(e){
         
         $JSView.dataView({
-            'title': 'Title C',
+            'title': 'Slide',
             'text1': '<h1>Slide 1</h1>',
             'content1': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>',
             'text2': '<h1>Slide 2</h1>',
@@ -53,22 +53,47 @@ $JSView.controller = {
         });
         
     },
-    viewD: function(e){
+    viewRoomChat: function(e){
         $JSView.dataView({
-            'title': 'Title D'
+            'title': 'Room chat'
         },e)
     },
-    viewE: function(e){
+    viewTabs: function(e){
         $JSView.dataView({
-            'title': 'Title E'
+            'title': 'Tabs'
         },e)
         $JSView.initTabs(e);
     },
-    viewF: function(e){
+    viewList: function(e){
         $JSView.dataView({
-            'title': 'Title F'
+            'title': 'List'
         },e)
-        
+    },
+    viewListPhotos: function(e){
+        $JSView.dataView({
+            'title': 'List Photos'
+        },e)
+    },
+    viewListVideos: function(e){
+        $JSView.dataView({
+            'title': 'List Videos'
+        },e)
+    },
+    viewTweets: function(e){
+        $JSView.dataView({
+            'title': 'Tweets'
+        },e)
+    },
+    viewCards: function(e){
+        $JSView.dataView({
+            'title': 'Cards'
+        },e)
+    },
+    viewListPhotosLoadMoreLocal: function(e){
+        $JSView.dataView({
+            'title': 'Photos initLoadMore Local'
+        },e),
+
         $JSView.initLoadMore({
             item1: {
                 'name': 'User 1',
@@ -118,37 +143,31 @@ $JSView.controller = {
                 'name': 'User 3',
                 'text': 'But I must explain to you how. End'
             }
-        },e);
-        
+        },e); 
     },
-    viewG: function(e){
-        
+    viewListPhotosLoadMoreRemote: function(e){
         $JSView.dataView({
-            'title': 'Title G'
+            'title': 'Photos initLoadMore Remote'
         },e),
 
         $JSView.initLoadMore({
             type: 'GET', 
             url:'http://api.javascriptview.com/loadmore'
-        },e);
-         
-    },
-    viewH:function(e){        
-
-        $JSView.dataView({
-            'title':'Title H',
-            
-        },e);
-        //in the future it will be a rest call
-        $JSView.loadVideos({
-            'text' : 'Eaque ipsa quae ab illo inventore Eaque ipsa quae ab illo inventore.',
-            'url'  : 'youtube.com',
-            'video': '/img/fixie.jpg'        
         },e);  
     },
-    modalA: function(e){
+    viewListVideosLoadMoreRemote: function(e){
         $JSView.dataView({
-            'title': 'Title modal A',        
+            'title': 'Videos initLoadMore Remote'
+        },e),
+
+        $JSView.initLoadMore({
+            type: 'GET', 
+            url:'http://api.javascriptview.com/videos'
+        },e);  
+    },
+    modal: function(e){
+        $JSView.dataView({
+            'title': 'Modal'      
         },e)
     },
     menu: function(e){

@@ -95,11 +95,11 @@ jsv-header{
     top: 0px;
     width: 100%;
     height: 44px;
-    padding-left: 45px;
-    padding-right: 45px;
+    padding-left: 55px;
+    padding-right: 55px;
     text-align: center;
     line-height: 43px;
-    font-size: 18px;
+    font-size: 16px;
     overflow:hidden;
     white-space:nowrap;
     text-overflow: ellipsis}
@@ -165,7 +165,7 @@ jsv-header button-header-right{
     width: 45px;
     height: 45px;
     line-height: 45px;
-    font-size: 16px}
+    font-size: 14px}
 
 jsv-header button-header-left{
     position: absolute;
@@ -179,7 +179,7 @@ jsv-header button-header-left{
     width: 45px;
     height: 45px;
     line-height: 45px;
-    font-size: 16px}
+    font-size: 14px}
 /*-----------------*/
 
 /*Tabs*/
@@ -303,7 +303,7 @@ jsv-menu-bottom jsv-menu jsv-option{
 
 /*LOADMORE RELOAD*/
 jsv-refresh{
-    width: 100%;
+    width: 95%;
     height: 30px;
     position: absolute;
     margin-top: -30px}
@@ -335,6 +335,9 @@ jsv-list.photo-list jsv-item{
     padding-left: 70px}
 
 jsv-list.photo-list jsv-item .photo{
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
     position: absolute;
     left: 10px;
     width: 50px;
@@ -366,47 +369,97 @@ jsv-list.photo-list jsv-item .tools .col{
     font-weight: 500;
     padding-left: 0}
 
-/*List videos*/
-jsv-list.video-list jsv-item{
+/*List Photo*/
+jsv-list.tweet-list jsv-item{
     padding: 10px;
     border: none;
     border-bottom: 1px solid #ddd;
-    padding-left: 70px
-}
+    padding-left: 70px}
 
-jsv-list.video-list jsv-item.item{
-    height: 150px;
-    background-color: #fff;
-    position: relative;
-    display: block;
-    padding: 0;
-    border: 1px solid #ddd;
-    font-size: 14px;
-    margin-bottom: 6px;
-}
-
-jsv-list.video-list jsv-item .video{
-    position: absolute;   
-    width: 50%;
-    height: 150px;
+jsv-list.tweet-list jsv-item .photo{
+    position: absolute;
+    left: 10px;
+    width: 50px;
+    height: 50px;
     border-radius: 5px;
     background-color: #f5f5f5}
 
-jsv-list.video-list jsv-item .video img{
-    width: 100%;
-    height: 100%;
-}
-
-jsv-list.video-list jsv-item h3{
+jsv-list.tweet-list jsv-item h3{
     line-height: 30px;
-    margin: 5px}
+    margin: 0px}
 
-jsv-list.video-list jsv-item .data{
- 
-    float: right;
+jsv-list.tweet-list jsv-item h3 span{
+    font-size: 12px}
+
+jsv-list.tweet-list jsv-item p{
+    line-height: 20px;
+    margin: 0px;
+    overflow:hidden}
+
+jsv-list.tweet-list jsv-item .tools{
+    padding: 0;
+    height: 30px;
+    line-height: 20px}
+
+jsv-list.tweet-list jsv-item .tools .col{
+    font-size: 12px;
+    font-weight: 500;
+    padding-left: 0}
+
+/*List videos*/
+
+jsv-list.video-list jsv-item{
+    min-height: 120px;
+    background-color: #fff;
+    position: relative;
+    display: block;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 0px;
+    width: 100%}
+
+jsv-list.video-list jsv-item div:nth-child(1){
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #f5f5f5;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: block;
+    width: 100%}
+
+jsv-list.video-list jsv-item div:nth-child(2){
     padding: 1px 1px 1px 7px;
-    width: 48%;
-}    
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: block;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%} 
+
+jsv-list.video-list jsv-item h4{
+    margin-top: 5px;
+    margin-bottom: 5px}
+
 
 /*List cards*/
 jsv-list.card-list{
@@ -488,11 +541,13 @@ jsv-room ul li{
     margin-bottom: 10px}
 
 jsv-room ul li.left{
+    max-width: 90%;
     float: left;
     padding: 10px;
     padding-left: 10px}
 
 jsv-room ul li.right{
+    max-width: 90%;
     float: right;
     padding: 10px;
     padding-right: 10px}

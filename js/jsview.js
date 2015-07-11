@@ -484,32 +484,6 @@ $JSView = {
         
     },
 
-    loadVideos:function(obj,e){
-        
-
-        console.log("load Videos");
-        //cogemos el item donde va el video
-        //Save item to repeat from list
-        var item = $v.select('#' + e + ' jsv-content jsv-list').innerHTML;
-
-        //Remove the previous contents of the container
-        $v.select('#' + e + ' jsv-content jsv-list').innerHTML = ''
-
-
-        var contentView; 
-        contentView = '';
-        //iteramos n veces 
-         for (var i =0; i< 5 ; i++) {
-                    itemInter = item;
-                    for (var x in obj) {                       
-                        itemInter = itemInter.replace(new RegExp('{{'+x+'}}', 'g'), obj[x]);                      
-                    }
-                    contentView += itemInter;
-                }
-
-        $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
-    },
-
     query: function(type, url, header, data){
         // Return a new promise.
         return new Promise(function(resolve, reject) {
@@ -530,7 +504,7 @@ $JSView = {
         }); 
     },
 
-    reload:function(obj,e){
+    reload:function(obj, e){
         
         console.log("reload");
 
