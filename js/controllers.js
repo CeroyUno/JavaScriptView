@@ -153,6 +153,11 @@ $JSView.controller = {
         $JSView.initLoadMore({
             type: 'GET', 
             url:'http://api.javascriptview.com/loadmore'
+        },e),
+
+        $JSView.reload({
+            type: 'GET', 
+            url:'http://api.javascriptview.com/reload'
         },e);  
     },
     viewListVideosLoadMoreRemote: function(e){
