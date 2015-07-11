@@ -505,29 +505,37 @@ $JSView = {
     },
 
     reload:function(obj, e){
-        
-        console.log("reload");
 
-
-        //Add spinner
-        $v.select('#' + e + ' jsv-content jsv-loadmore').innerHTML = spinner;
-        
-        //Save item to repeat from list
-        var item = $v.select('#' + e + ' jsv-content jsv-list').innerHTML;
-        
-        //Remove the previous contents of the container
-        $v.select('#' + e + ' jsv-content jsv-list').innerHTML = ''
-        
-        var contentView;
-        
+        console.log("reload : " + e);
+  
         //event touch
-        $v.select('#' + e + ' jsv-content').touchmove = function(){
-            console.log("Event touch : reload");
-            //load query to reload 
-             $JSView.query(obj.type, obj.url).then(function(result) {
-                //Code depending on result
-                console.log(JSON.parse(result));
+        $v.select('#' + e + ' jsv-content').ontouchmove = function(event){
+                
+                var starty = 0;
+                var touchobj = event.changedTouches[0];
+                var dist = parseInt(touchobj.clientY) - starty;
+                $v.select('#' + e + ' jsv-content').style.cssText  = 'translate(' + starty + 'px,' + dist + 'px)';
 
+        } 
+        $v.select('#' + e + ' jsv-content').ontouchend = function(event){
+
+            
+            console.log("Event touch : reload");
+               
+            //Add spinner
+            $v.select('#' + e + ' jsv-content jsv-loadmore').innerHTML = spinner;
+            
+            //Save item to repeat from list
+            var item = $v.select('#' + e + ' jsv-content jsv-list').innerHTML;
+            
+            //Remove the previous contents of the container
+            $v.select('#' + e + ' jsv-content jsv-list').innerHTML = ''
+                    
+            //load query to reload 
+            var contentView;
+            $JSView.query(obj.type, obj.url).then(function(result) {
+                //Code depending on result
+                console.log(JSON.parse(result));                
                 console.group('query');
                 console.time('query');
                 contentView = '';
@@ -546,9 +554,9 @@ $JSView = {
 
                 console.timeEnd('query');
                 console.groupEnd();
-
+                
             }).catch(function() {
-                // an error occurred
+                //An error occurred
                 console.log('An error occurred');
             });
         }
