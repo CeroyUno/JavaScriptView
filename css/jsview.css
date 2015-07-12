@@ -636,6 +636,36 @@ jsv-room-input button{
     background: #f7f7f7;
     text-align: center}
 
+/*Menu Circle*/
+jsv-menu-circle{
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    bottom: 0px;
+    background-color:rgba(0,0,0,0.6)
+}
+jsv-menu-circle jsv-button{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 25px;
+    background-color: #333333;
+    color: #f8dc3c;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    line-height: 45px;
+    text-align: center}
+
+jsv-menu-circle jsv-button:before{
+    content: "+"}  
+
+jsv-menu-circle jsv-content{
+    background: #fff;
+    top: auto;
+    bottom:0px;
+}    
+
 /*Spinner in scroll and modal*/
 #JSVcontainerLoading{
     top: 0px;

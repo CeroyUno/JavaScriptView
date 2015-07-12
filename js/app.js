@@ -95,6 +95,11 @@ window.addEventListener('load', function() {
             template: 'views/viewCards.html',
             controller: 'viewCards'
         },
+        viewCircle: {
+            url: '/viewCircle',
+            template: 'views/viewCircle.html',
+            controller: 'viewCircle'
+        },
         viewListPhotosLoadMoreLocal: {
             url: '/viewListPhotosLoadMoreLocal',
             template: 'views/viewListPhotosLoadMoreLocal.html',
