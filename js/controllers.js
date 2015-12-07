@@ -89,10 +89,23 @@ $JSView.controller = {
             'title': 'Cards'
         },e)
     },
+    viewOptions: function(e){
+        $JSView.dataView({
+            'title': 'Menu Options'
+        },e)
+    },
+    viewNotification: function(e){
+        $JSView.dataView({
+            'title': 'Notification'
+        },e)
+    },
     viewCircle: function(e){
         $JSView.dataView({
             'title': 'Menu Circle'
         },e)
+        
+        $JSView.initMenuCircle(e)
+        
     },
     viewListPhotosLoadMoreLocal: function(e){
         $JSView.dataView({

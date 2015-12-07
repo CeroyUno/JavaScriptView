@@ -4,8 +4,9 @@
     <button-header-right></button-header-right>
 </jsv-header>
 <jsv-content>
+    <button onclick="$JSView.openMenuModal('menuModal')" class="bgYellow">Open Bottom Menu</button>
 </jsv-content>
-<jsv-menu-circle id="menuCircle">
+<jsv-modal-menu id="menuModal">
     <jsv-list>
         <ul>
             <li>Send via Email</li>
@@ -13,7 +14,7 @@
             <li>Mute</li>
             <li>Block</li>
             <li>Report</li>
-            <li onclick="$JSView.closeMenuCircle('menuCircle')">Cancel</li>
+            <li onclick="$JSView.closeMenuModal('menuModal')">Cancel</li>
         </ul>
     </jsv-list>
-</jsv-menu-circle>
+</jsv-modal-menu>

@@ -95,6 +95,16 @@ window.addEventListener('load', function() {
             template: 'views/viewCards.html',
             controller: 'viewCards'
         },
+        viewOptions: {
+            url: '/viewOptions',
+            template: 'views/viewOptions.html',
+            controller: 'viewOptions'
+        },
+        viewNotification: {
+            url: '/viewNotification',
+            template: 'views/viewNotification.html',
+            controller: 'viewNotification'
+        },
         viewCircle: {
             url: '/viewCircle',
             template: 'views/viewCircle.html',

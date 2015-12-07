@@ -9,7 +9,9 @@ Thanks!
 */
 
 //Global vars
-var JSVFullSpinner, JSVStatusFullSpinner = false, JSVActualView, statusActionMenuSide = false, typeProject, tempDevice = 'iOS';
+
+//var JSVFullSpinner, JSVStatusFullSpinner = false, JSVActualView, statusActionMenuSide = false, typeProject, tempDevice = 'iOS';
+var JSVActualView, statusActionMenuSide = false, typeProject, tempDevice = 'iOS';
 
 //This array save of each view
 var JSVDeclareViews = new Array();
@@ -17,10 +19,17 @@ var JSVDeclareViews = new Array();
 //This array save code html of each view ajax loaded
 var JSVContainersViews = new Array();
 
+//This array save code html of each view ajax loaded
+var JSVNotifications = new Array();
+
 //Keep dom element body in a global variable
 var objBody;
 
 $JSView = {
+    
+    // Register the event listener
+    //document.addEventListener("backbutton", $JSView.onBackKeyDown, false);
+    
     run: function(type){
         //We get the type of device to change the height of the head in the case of iOS
         if(tempDevice == 'iOS'){
@@ -40,10 +49,14 @@ $JSView = {
         //Keep dom element body in a global variable
         objBody = $v.select('body');
         //Add full spinner div in dom
+        
+        console.log(spinnerModal);
+        
         objBody.innerHTML += spinnerModal;
         //Save the reference full spinner div in global var
-        JSVfullLoading = $v.select('#JSVcontainerLoading');
-    },
+        //JSVfullLoading = $v.select('#JSVcontainerLoading');
+    },       
+    //DECLARE, INIT, DATA AND GOTO VIEW
     declareView: function(e){
         //Read json of all views declared
         for(var obj in e){
@@ -104,6 +117,7 @@ $JSView = {
         
     },
     goToView: function(e){
+        
         console.group('goToView e -> ' + e);
         console.time('goToView');
         
@@ -129,23 +143,26 @@ $JSView = {
             objElement.classList.add('JSVcontainerCenter')
             objElement.classList.remove('JSVcontainerRight')
         }
-        //Assign actual view to global var
-        JSVActualView = e;
-        //Execute the function controller of this view
-        /*Remove eval*/
-        //eval( '$JSView.controller.' + e + '("' + e + '")' );
-        $JSView.controller[e](e);
+        
+        //If the current view is different to the view query now
+        if(JSVActualView != e){
+            //Assign actual view to global var
+            JSVActualView = e;
+            //Execute the function controller of this view
+            $JSView.controller[e](e);
+            //Change the url
+            window.history.pushState(e, '', '/www/index.html#' + e);
+        }
         /*-----------*/
-        //Change the url
-        window.history.pushState(e, '', '/www/index.html#' + e);
         
         console.timeEnd('goToView');
         console.groupEnd();
         
     },
+    //DECLARE AND ACTION MENU
     declareMenu: function(e){
         //If we add the jsv-main component to body (This is why we want a menu)
-        objBody.innerHTML = '<jsv-main></jsv-main>';
+        objBody.innerHTML += '<jsv-main></jsv-main>';
         //Keep dom element in a variable
         var objMain = $v.select('jsv-main');
         //Asign element jsv-main from body to objMain var
@@ -174,6 +191,43 @@ $JSView = {
             }
         }     
     },
+    actionMenu: function(e){
+        //Keep dom element in a variable
+        var objContainer = $v.select('jsv-container');
+        //If execute actionMenu with value in e, is that we want chante the intern view of jsv-main
+        if (typeof e != 'undefined') {
+            //Keep dom element in a variable
+            var objElement = $v.select('#' + e);
+            var objContainerJSVcontainerForeground = $v.select('jsv-container .JSVcontainerForeground')
+            objContainerJSVcontainerForeground.classList.add('JSVcontainerBackground');
+            objContainerJSVcontainerForeground.classList.remove('JSVcontainerForeground');
+            objElement.classList.remove('JSVcontainerBackground');
+            objElement.classList.add('JSVcontainerForeground');
+            //If the current view is different to the view query now
+            if(JSVActualView != e){
+                //Assign actual view to global var
+                JSVActualView = e;
+                //Execute the function controller of this view
+                $JSView.controller[e](e);
+                //Change the url
+                window.history.pushState(e, '', '/www/index.html#' + e);
+            }
+            /*-----------*/
+        }
+        //If is the left menu enter here
+        if(typeProject == 'left'){
+            if(statusActionMenuSide == false){
+                objContainer.classList.add('JSVcontainerLeftMenuSide')
+                objContainer.classList.remove('JSVcontainerCenter') 
+                statusActionMenuSide = true
+            }else{
+                objContainer.classList.add('JSVcontainerCenter')
+                objContainer.classList.remove('JSVcontainerLeftMenuSide')
+                statusActionMenuSide = false
+            }
+        }
+    },
+    //DECLARE, OPEN AND CLOSE VIEW MODAL E-> VIEW
     declareModal: function(e,options){
         //Read json of all views modal declared
         for(var obj in e){
@@ -204,8 +258,6 @@ $JSView = {
         //Assign actual view to global var
         JSVActualView = e;
         //Execute the function controller of this view
-        /*Remove eval*/
-        //eval( '$JSView.controller.' + e + '("' + e + '")' );
         $JSView.controller[e](e);
         /*-----------*/
         //Change the url
@@ -224,6 +276,90 @@ $JSView = {
             JSVActualView = window.history.state
         },0);
     },
+    //OPEN AND CLOSE MODAL MENU BOTTOM, E-> VIEW, M-> ID MODAL
+    openMenuModal: function(e){
+        var idPatrent = $v.select('#' + e).parentNode.id;
+        //Change the class and hide modal
+        $v.select('#' + idPatrent + ' #' + e).classList.add('jsv-modal-menu-show');
+        //Change the class and show modal div
+        $v.select('#' + idPatrent + ' #' + e + ' jsv-list').classList.add('JSVcontainerCenter');
+        //Close menu modal, click background transparent
+        var liClicked = false
+        $v.select('#' + idPatrent + ' #' + e + ' jsv-list ').onclick = function(){
+            liClicked = true;
+        } 
+        $v.select('#' + idPatrent + ' #' + e).onclick = function(){
+            if(liClicked == false){
+                $JSView.closeMenuModal(e);
+            }
+            liClicked = false;
+        }
+    },
+    closeMenuModal: function(e){
+        var idPatrent = $v.select('#' + e).parentNode.id;
+        //Change the class and hide modal
+        $v.select('#' + idPatrent + ' #' + e).classList.remove('jsv-modal-menu-show');
+        $v.select('#' + idPatrent + ' #' + e + ' jsv-list').classList.remove('JSVcontainerCenter');
+    },
+    //SHOW NOTIFICATIONS T->text
+    showNotification: function(t){
+        var modalId = Date.now();
+        objBody.innerHTML += '<div id="notification' + modalId + '" class="notification JSVcontainerTop JSVcontainerTransition">' + t + '</div>';
+        //Put element notification in camera
+        JSVNotifications[modalId] = setTimeout(function(){
+            $v.select('#notification' + modalId).classList.add('JSVcontainerCenter');
+            $v.select('#notification' + modalId).classList.remove('JSVcontainerTop');
+            //Put element notification out camera and remove element
+            setTimeout(function(){
+                $v.select('#notification' + modalId).classList.add('JSVcontainerTop');
+                $v.select('#notification' + modalId).classList.remove('JSVcontainerCenter');
+                setTimeout(function(){
+                    $v.select('#notification' + modalId).remove();
+                    clearInterval(JSVNotifications[modalId]);
+                    delete JSVNotifications[modalId];
+                },250);
+            },2000);
+        },100);
+    },
+    //INIT MENU CIRCLE
+    initMenuCircle: function(e){
+        //Keep dom element in a variable
+        var objElement = $v.select('#' + e + ' jsv-menu-circle');
+        
+        var objElementUl = $v.select('#' + e + ' jsv-menu-circle jsv-list ul');
+        //Added a style element for animation. It is obligatory for the animation is fluid
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML += '#' + objElement.id + '.JSVmenuCircleOpen { height: ' + (objElementUl.offsetHeight-70) + 'px; }';
+        document.getElementsByTagName('head')[0].appendChild(style);
+        //If the user click in ul don´t hide menu, but if click in element parent yes.
+        var liClicked = false
+        objElementUl.onclick = function(){
+            liClicked = true;
+        } 
+        objElement.onclick = function(){
+            if(liClicked == false){
+                if(objElement.classList.contains('JSVmenuCircleOpen') == false){
+                    //Change the class and hide modal
+                    objElement.classList.add('JSVcontainerCenter');
+                    objElement.classList.add('JSVmenuCircleOpen');
+                }else{
+                    //Change the class and hide modal
+                    objElement.classList.remove('JSVmenuCircleOpen');
+                    objElement.classList.remove('JSVcontainerCenter');
+                }
+            }
+            liClicked = false;
+        }
+    },
+    closeMenuCircle: function(e){
+        var idPatrent = $v.select('#' + e).parentNode.id;
+        var objElement = $v.select('#' + idPatrent + ' jsv-menu-circle#' + e);
+        //Change the class and close menu
+        objElement.classList.remove('JSVmenuCircleOpen');
+        objElement.classList.remove('JSVcontainerCenter');
+    },
+    //ACTION BACK BUTTON
     back: function(){
         //Return to previous url
         window.history.back();
@@ -232,6 +368,10 @@ $JSView = {
             $JSView.returnTo(window.history.state);
         },0);
     },
+    onBackKeyDown: function(){
+        console.log('onBackKeyDown');   
+        $JSView.back();
+    }, 
     returnTo: function(e){
         //Keep dom element in a variable
         var objElementJSVActualView = $v.select('#' + JSVActualView);
@@ -258,40 +398,6 @@ $JSView = {
         }
         //Assign actual view to global var
         JSVActualView = e
-    },
-    actionMenu: function(e){
-        //Keep dom element in a variable
-        var objContainer = $v.select('jsv-container');
-        //If execute actionMenu with value in e, is that we want chante the intern view of jsv-main
-        if (typeof e != 'undefined') {
-            //Keep dom element in a variable
-            var objElement = $v.select('#' + e);
-            var objContainerJSVcontainerForeground = $v.select('jsv-container .JSVcontainerForeground')
-            objContainerJSVcontainerForeground.classList.add('JSVcontainerBackground');
-            objContainerJSVcontainerForeground.classList.remove('JSVcontainerForeground');
-            objElement.classList.remove('JSVcontainerBackground');
-            objElement.classList.add('JSVcontainerForeground');
-            //Assign actual view to global var
-            JSVActualView = e;
-            /*Remove eval*/
-            //eval( '$JSView.controller.' + e + '("' + e + '")' );
-            $JSView.controller[e](e);
-            /*-----------*/
-            //Change the url
-            window.history.pushState(e, '', '/www/index.html#'+e);
-        }
-        //If is the left menu enter here
-        if(typeProject == 'left'){
-            if(statusActionMenuSide == false){
-                objContainer.classList.add('JSVcontainerLeftMenuSide')
-                objContainer.classList.remove('JSVcontainerCenter') 
-                statusActionMenuSide = true
-            }else{
-                objContainer.classList.add('JSVcontainerCenter')
-                objContainer.classList.remove('JSVcontainerLeftMenuSide')
-                statusActionMenuSide = false
-            }
-        }
     },
     //This function read all 'a' element and create event onclick to open inappbrowser plugin cordova
     parseAllLink: function(e){
@@ -349,8 +455,8 @@ $JSView = {
                 if ( i == 1) indicator += '<li class="active">' + i + '</li>';
                 else indicator += '<li>' + i + '</li>';
             }
-            $v.select('.JSVindicator').innerHTML = indicator;
-            $v.select('.JSVindicator').style.paddingLeft = (maxWidth - this.innerWidth) + 'px';
+            $v.select(e + ' .JSVindicator').innerHTML = indicator;
+            $v.select(e + ' .JSVindicator').style.paddingLeft = (maxWidth - this.innerWidth) + 'px';
         }
         /*---------------------*/
 
@@ -361,9 +467,55 @@ $JSView = {
             hScrollbar: false,
             onScrollEnd: function () {
                 if(options.indicators == true){
-                    $v.select('.JSVindicator > li.active').className = '';
-                    $v.select('.JSVindicator > li:nth-child(' + (this.currPageX+1) + ')').className = 'active';
+                    $v.select(e + ' .JSVindicator > li.active').className = '';
+                    $v.select(e + ' .JSVindicator > li:nth-child(' + (this.currPageX+1) + ')').className = 'active';
                 }
+            }
+         });
+         /*---------------------*/
+    },
+    //This function create slides ADVERTISING
+    initSlideAdvertising: function(e, options){
+        var elements = $v.selectAll(e + ' .JSVscrollerAd ul li');
+        var numberElement;
+        var maxWidth;
+        //Asign width
+        if(options.responsive == true){
+            //Responsive
+            numberElement = elements.length;
+            maxWidth = $v.select(e).parentElement.offsetWidth;
+            maxHeight = $v.select(e).parentElement.offsetHeight;
+            var divs = $v.selectAll(e + ' .JSVscrollerAd ul li');
+            for (var i = 0; i < numberElement; ++i) {
+                $v.selectAll(e + ' .JSVscrollerAd ul li')[i].style.width = maxWidth + 'px';
+                $v.selectAll(e + ' .JSVscrollerAd ul li')[i].style.height = maxHeight + 'px';
+            }
+            $v.select(e + ' .JSVscrollerAd').style.width = (maxWidth * numberElement) + 'px';
+        }else if(options.width && options.height){            
+            //Absolute
+            $v.select(e).style.width = options.width + 'px';
+            $v.select(e).style.height = options.height + 'px' ;
+            numberElement = elements.length;
+            maxWidth = options.width;
+            maxHeight = options.height;
+            for (var i = 0; i < numberElement; ++i) {
+                $v.selectAll(e + ' .JSVscrollerAd ul li')[i].style.width = (maxWidth-60) + 'px';
+                $v.selectAll(e + ' .JSVscrollerAd ul li')[i].style.height = maxHeight + 'px';
+            }
+            $v.select(e + ' .JSVscrollerAd').style.width = ((maxWidth-40) * numberElement)-20 + 'px';
+        }else{
+            console.warn("Debes definir un diseño responsive o absoluto con width y eight.")   
+        }
+        /*---------------------*/
+
+        //Add slide to array
+        new iScroll(e, {
+            snap: true,
+            momentum: false,
+            hScrollbar: false,
+            advertising: true,
+            onScrollStart: function () {
+                console.log(this.currPageX+1)
             }
          });
          /*---------------------*/
@@ -389,29 +541,42 @@ $JSView = {
             }, false);  
         }
     },
-    //This function will start refresh in scroll
-    initRefresh: function(e){
-        console.log('initDoRefresh');
-        $v.select('jsv-refresh').innerHTML = spinner;
+    //This function query urls externals with several parameters
+    query: function(type, url, header, data){
+        // Return a new promise.
+        return new Promise(function(resolve, reject) {
+            var req = new XMLHttpRequest();
+            req.open(type, url);
+            req.onload = function() {
+                if (req.status == 200 || req.status == 0) {
+                    resolve(req.response);
+                }
+                else {
+                    reject(Error(req.statusText));
+                }
+            };
+            req.onerror = function() {
+                reject(Error("Network Error"));
+            };
+            req.send();
+        }); 
     },
-    //This function start loadmore in scroll
-    initLoadMore: function(obj, e){
+    //This function add refresh and loadmore function to scroll view
+    initScroll: function (obj, e){
         //THIS FUNCTION IS NOW IN TEST
-        //obj -> type, url, header, data, increase
+        //obj -> type, url, header, data, increase, refresh, loadmore
         //Now only can use "type" and "url"
         
-        console.group('loadMore');
-        console.time('loadMore');
-        
-        //Add spinner
-        $v.select('#' + e + ' jsv-content jsv-loadmore').innerHTML = spinner;
+        console.group('initLoad');
+        console.time('initLoad');
         
         //Save item to repeat from list
         var item = $v.select('#' + e + ' jsv-content jsv-list').innerHTML;
         
         //Remove the previous contents of the container
-        $v.select('#' + e + ' jsv-content jsv-list').innerHTML = ''
+        $v.select('#' + e + ' jsv-content jsv-list').innerHTML = '';
         
+        //Load init data from external service
         var contentView;
         $JSView.query(obj.type, obj.url).then(function(result) {
             //Code depending on result
@@ -440,140 +605,153 @@ $JSView = {
             //An error occurred
             console.log('An error occurred');
         });
-        
-        $v.select('#' + e + ' jsv-content').onscroll = function(){
-            //console.log('window.height -> ' + $v.select('#' + e + ' jsv-content').offsetHeight);
-            //console.log('window.scrollHeight -> ' + $v.select('#' + e + ' jsv-content').scrollHeight);
-            //console.log('window.scrollTop -> ' + $v.select('#' + e + ' jsv-content').scrollTop);
-            if(($v.select('#' + e + ' jsv-content').offsetHeight + $v.select('#' + e + ' jsv-content').scrollTop) == $v.select('#' + e + ' jsv-content').scrollHeight){
-                
-            $JSView.query(obj.type, obj.url).then(function(result) {
-                //Code depending on result
-                console.log(JSON.parse(result));
 
-                console.group('query');
-                console.time('query');
-                contentView = '';
-                var resultQuery = JSON.parse(result);
-                for (key in resultQuery) {
-                    itemInter = item;
-                    for (var x in resultQuery[key]) {
-                        if(!resultQuery[key][x]) resultQuery[key][x]='';
-                        itemInter = itemInter.replace(new RegExp('{{'+x+'}}', 'g'), resultQuery[key][x]);
-                    }
-                    contentView += itemInter;
+        if(obj.refresh == true){
+            
+            $v.select('#' + e + ' jsv-content').style.top = '24px';
+            var starty = 0;
+            var actionReload = false;
+            
+            //Add spinner
+            $v.select('#' + e + ' jsv-content jsv-refresh').innerHTML = spinner;
+            
+            $v.select('#' + e + ' jsv-content').addEventListener('touchstart', function(element){
+                if(actionReload == false) starty = element.changedTouches[0].pageY;
+            }, false)
+
+            $v.select('#' + e + ' jsv-content').addEventListener('touchmove', function(element){
+
+                if($v.select('#' + e + ' jsv-content').scrollTop == 0 && element.changedTouches[0].pageY > starty){
+                    $v.select('#' + e + ' jsv-content').style.webkitTransform  = 'translate3d(0px,' + (element.changedTouches[0].pageY - starty) + 'px,0px)';
+                    $v.select('#' + e + ' jsv-content').style.transform  = 'translate3d(0px,' + (element.changedTouches[0].pageY - starty) + 'px,0px)';
+                    actionReload = true;
                 }
-
-                //Add the new contents of the container
-                $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
-
-                console.timeEnd('query');
-                //console.groupEnd();
-
-            }).catch(function() {
-                // an error occurred
-                console.log('An error occurred');
-            });
                 
-            }
+            }, false)
+
+            $v.select('#' + e + ' jsv-content').addEventListener('touchend', function(element){
+
+                //If actionReload is true and scroll positionY is more than 44px
+                if(actionReload == true && element.changedTouches[0].pageY > (starty+44)){
+
+                    $v.select('#' + e + ' jsv-content').classList.add('JSVcontainerTransition');
+
+                    $v.select('#' + e + ' jsv-content').style.webkitTransform = 'translate3d(0px,44px,0px)';
+                    $v.select('#' + e + ' jsv-content').style.transform  = 'translate3d(0px,44px,0px)';
+        
+                    $JSView.query(obj.type, obj.url).then(function(result) {
+                        //Code depending on result
+                        console.log(JSON.parse(result));
+
+                        console.group('query');
+                        console.time('query');
+                        contentView = '';
+                        var resultQuery = JSON.parse(result);
+                        for (key in resultQuery) {
+                            itemInter = item;
+                            for (var x in resultQuery[key]) {
+                                if(!resultQuery[key][x]) resultQuery[key][x]='';
+                                itemInter = itemInter.replace(new RegExp('{{'+x+'}}', 'g'), resultQuery[key][x]);
+                            }
+                            contentView += itemInter;
+                        }
+
+                        //Add the new contents of the container
+                        $v.select('#' + e + ' jsv-content jsv-list').innerHTML = contentView;
+
+                        //Return to init position
+                        $v.select('#' + e + ' jsv-content').style.webkitTransform = 'translate3d(0px,0px,0px)';
+                        $v.select('#' + e + ' jsv-content').style.transform  = 'translate3d(0px,0px,0px)';
+                        //$v.select('#' + e + ' jsv-content').style.transform  = 'initial';
+                        setTimeout(function(){
+                            $v.select('#' + e + ' jsv-content').classList.remove('JSVcontainerTransition');
+                            actionReload = false;
+                        },250)
+
+                        console.timeEnd('query');
+                        //console.groupEnd();
+
+                    }).catch(function() {
+                        // an error occurred
+                        console.log('An error occurred');
+                    });  
+                    
+                //If actionReload is false and scroll positionY is less than 44px
+                }else{
+                    
+                    $v.select('#' + e + ' jsv-content').classList.add('JSVcontainerTransition');
+                    
+                    //Return to init position
+                    $v.select('#' + e + ' jsv-content').style.webkitTransform = 'translate3d(0px,0px,0px)';
+                    $v.select('#' + e + ' jsv-content').style.transform  = 'translate3d(0px,0px,0px)';
+                    //$v.select('#' + e + ' jsv-content').style.transform  = 'initial';
+                    setTimeout(function(){
+                        $v.select('#' + e + ' jsv-content').classList.remove('JSVcontainerTransition');
+                        actionReload = false;
+                    },250)
+                }   
+
+            }, false)
             
         }
-        
-        console.timeEnd('loadMore');
-        console.groupEnd();
-        
-    },
 
-    query: function(type, url, header, data){
-        // Return a new promise.
-        return new Promise(function(resolve, reject) {
-            var req = new XMLHttpRequest();
-            req.open(type, url);
-            req.onload = function() {
-                if (req.status == 200 || req.status == 0) {
-                    resolve(req.response);
-                }
-                else {
-                    reject(Error(req.statusText));
-                }
-            };
-            req.onerror = function() {
-                reject(Error("Network Error"));
-            };
-            req.send();
-        }); 
-    },
-
-    reload:function(obj, e){
-
-        console.log("reload : " + e);
-  
-        //event touch
-        $v.select('#' + e + ' jsv-content').ontouchmove = function(event){
-                
-                var starty = 0;
-                var touchobj = event.changedTouches[0];
-                var dist = parseInt(touchobj.clientY) - starty;
-                $v.select('#' + e + ' jsv-content').style.cssText  = 'translate(' + starty + 'px,' + dist + 'px)';
-
-        } 
-        $v.select('#' + e + ' jsv-content').ontouchend = function(event){
-
-            
-            console.log("Event touch : reload");
-               
+        if(obj.loadmore == true){
             //Add spinner
             $v.select('#' + e + ' jsv-content jsv-loadmore').innerHTML = spinner;
             
-            //Save item to repeat from list
-            var item = $v.select('#' + e + ' jsv-content jsv-list').innerHTML;
-            
-            //Remove the previous contents of the container
-            $v.select('#' + e + ' jsv-content jsv-list').innerHTML = ''
-                    
-            //load query to reload 
-            var contentView;
-            $JSView.query(obj.type, obj.url).then(function(result) {
-                //Code depending on result
-                console.log(JSON.parse(result));                
-                console.group('query');
-                console.time('query');
-                contentView = '';
-                var resultQuery = JSON.parse(result);
-                for (key in resultQuery) {
-                    itemInter = item;
-                    for (var x in resultQuery[key]) {
-                        if(!resultQuery[key][x]) resultQuery[key][x]='';
-                        itemInter = itemInter.replace(new RegExp('{{'+x+'}}', 'g'), resultQuery[key][x]);
+            $v.select('#' + e + ' jsv-content').onscroll = function(){
+                   
+                if(($v.select('#' + e + ' jsv-content').offsetHeight + $v.select('#' + e + ' jsv-content').scrollTop) == $v.select('#' + e + ' jsv-content').scrollHeight){
+
+                $JSView.query(obj.type, obj.url).then(function(result) {
+                    //Code depending on result
+                    console.log(JSON.parse(result));
+
+                    console.group('query');
+                    console.time('query');
+                    contentView = '';
+                    var resultQuery = JSON.parse(result);
+                    for (key in resultQuery) {
+                        itemInter = item;
+                        for (var x in resultQuery[key]) {
+                            if(!resultQuery[key][x]) resultQuery[key][x]='';
+                            itemInter = itemInter.replace(new RegExp('{{'+x+'}}', 'g'), resultQuery[key][x]);
+                        }
+                        contentView += itemInter;
                     }
-                    contentView += itemInter;
+
+                    //Add the new contents of the container
+                    $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
+
+                    console.timeEnd('query');
+                    //console.groupEnd();
+
+                }).catch(function() {
+                    // an error occurred
+                    console.log('An error occurred');
+                });
+
                 }
 
-                //Add the new contents of the container
-                $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
-
-                console.timeEnd('query');
-                console.groupEnd();
-                
-            }).catch(function() {
-                //An error occurred
-                console.log('An error occurred');
-            });
+            }
         }
     }
+    
 }
 
 //This function show or hide modal Spinner
 $JSVspinner = {
     show: function(){
-        JSVfullLoading.classList.add('JSVshowLoading')
-        JSVfullLoading.classList.remove('JSVhideLoading')
-        JSVstatusFullSpinner = true
+        var JSVfullSpinner = $v.select('jsv-fullspinner');
+        JSVfullSpinner.classList.add('JSVshowLoading');
+        JSVfullSpinner.classList.remove('JSVhideLoading');
+        JSVstatusFullSpinner = true;
     },
     hide: function(){
-        JSVfullLoading.classList.add('JSVhideLoading')
-        JSVfullLoading.classList.remove('JSVshowLoading')
-        JSVstatusFullSpinner = false
+        var JSVfullSpinner = $v.select('jsv-fullspinner');
+        JSVfullSpinner.classList.add('JSVhideLoading');
+        JSVfullSpinner.classList.remove('JSVshowLoading');
+        JSVstatusFullSpinner = false;
     }
 }
 
@@ -607,14 +785,7 @@ $JSVRequest = {
                 JSVContainersViews[e] = req.responseText;
                 //If value of viewInit is true, then must run to start
                 if (viewInit == true){
-                    //console.group('$JSVRequest e -> ' + e);
-                    //console.time('$JSVRequest');
-                    /*Remove eval*/
-                    //eval( '$JSView.controller.' + e + '("' + e + '")' );
                     $JSView.controller[e](e);
-                    /*-----------*/
-                    //console.timeEnd('$JSVRequest');
-                    //console.groupEnd();
                 }
             }
             else {
@@ -1136,6 +1307,7 @@ var m = Math,
     translateZ = has3d ? ' translateZ(0)' : '',
 
     iScroll = function (el, options) {
+        
         var that = this,
             i;
 
@@ -1145,6 +1317,7 @@ var m = Math,
 
         // Default options
         that.options = {
+            advertising: false,
             hScroll: true,
             vScroll: true,
             x: 0,
@@ -1206,7 +1379,10 @@ var m = Math,
         that.options.vScrollbar = that.options.vScroll && that.options.vScrollbar;
         that.options.zoom = that.options.useTransform && that.options.zoom;
         that.options.useTransition = hasTransitionEnd && that.options.useTransition;
-
+        
+        // Advertising
+        that.options.advertising = that.options.advertising;
+        
         // Helpers FIX ANDROID BUG!
         // translate3d and scale doesn't work together!
         // Ignoring 3d ONLY WHEN YOU SET that.options.zoom
@@ -1393,13 +1569,14 @@ iScroll.prototype = {
     },
     
     _start: function (e) {
+        
         var that = this,
             point = hasTouch ? e.touches[0] : e,
             matrix, x, y,
             c1, c2;
 
         if (!that.enabled) return;
-
+        
         if (that.options.onBeforeScrollStart) that.options.onBeforeScrollStart.call(that, e);
 
         if (that.options.useTransition || that.options.zoom) that._transitionTime(0);
@@ -1666,7 +1843,13 @@ iScroll.prototype = {
             if (m.abs(distX) < that.options.snapThreshold && m.abs(distY) < that.options.snapThreshold) that.scrollTo(that.absStartX, that.absStartY, 200);
             else {
                 snap = that._snap(that.x, that.y);
+                
                 if (snap.x != that.x || snap.y != that.y) that.scrollTo(snap.x, snap.y, snap.time);
+                
+                //ADVERTISING TRUE, SNAP WITH DIFERENT WIDTH BETWEEN 1 AND 3 ITEMS   
+                console.log('pagesX -> ' + that.pagesX.length);
+                if(that.options.advertising && (that.currPageX==1 || that.currPageX==that.pagesX.length))
+                    if (snap.x != that.x || snap.y != that.y) that.scrollTo(snap.x+70, snap.y, snap.time);
             }
 
             if (that.options.onTouchEnd) that.options.onTouchEnd.call(that, e);
@@ -2164,5 +2347,7 @@ else window.iScroll = iScroll;
 /********Spinner******/
 var spinner = '<div class="JSVspinnerBlack"><svg viewBox="0 0 64 64"><g stroke-width="4" stroke-linecap="round"><line y1="12" y2="20" transform="translate(32,32) rotate(180)"><animate attributeName="stroke-opacity" dur="750ms" values="1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0;1" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(210)"><animate attributeName="stroke-opacity" dur="750ms" values="0;1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(240)"><animate attributeName="stroke-opacity" dur="750ms" values=".1;0;1;.85;.7;.65;.55;.45;.35;.25;.15;.1" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(270)"><animate attributeName="stroke-opacity" dur="750ms" values=".15;.1;0;1;.85;.7;.65;.55;.45;.35;.25;.15" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(300)"><animate attributeName="stroke-opacity" dur="750ms" values=".25;.15;.1;0;1;.85;.7;.65;.55;.45;.35;.25" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(330)"><animate attributeName="stroke-opacity" dur="750ms" values=".35;.25;.15;.1;0;1;.85;.7;.65;.55;.45;.35" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(0)"><animate attributeName="stroke-opacity" dur="750ms" values=".45;.35;.25;.15;.1;0;1;.85;.7;.65;.55;.45" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(30)"><animate attributeName="stroke-opacity" dur="750ms" values=".55;.45;.35;.25;.15;.1;0;1;.85;.7;.65;.55" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(60)"><animate attributeName="stroke-opacity" dur="750ms" values=".65;.55;.45;.35;.25;.15;.1;0;1;.85;.7;.65" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(90)"><animate attributeName="stroke-opacity" dur="750ms" values=".7;.65;.55;.45;.35;.25;.15;.1;0;1;.85;.7" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(120)"><animate attributeName="stroke-opacity" dur="750ms" values=".85;.7;.65;.55;.45;.35;.25;.15;.1;0;1;.85" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(150)"><animate attributeName="stroke-opacity" dur="750ms" values="1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0;1" repeatCount="indefinite"></animate></line></g></svg></div>';
 
-var spinnerModal = '<div id="JSVcontainerLoading" class="JSVcontainer JSVcontainerTransition JSVhideLoading"><div id="JSVgifLoading"><div class="JSVspinnerWhite"><svg viewBox="0 0 64 64"><g stroke-width="4" stroke-linecap="round"><line y1="12" y2="20" transform="translate(32,32) rotate(180)"><animate attributeName="stroke-opacity" dur="750ms" values="1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0;1" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(210)"><animate attributeName="stroke-opacity" dur="750ms" values="0;1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(240)"><animate attributeName="stroke-opacity" dur="750ms" values=".1;0;1;.85;.7;.65;.55;.45;.35;.25;.15;.1" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(270)"><animate attributeName="stroke-opacity" dur="750ms" values=".15;.1;0;1;.85;.7;.65;.55;.45;.35;.25;.15" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(300)"><animate attributeName="stroke-opacity" dur="750ms" values=".25;.15;.1;0;1;.85;.7;.65;.55;.45;.35;.25" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(330)"><animate attributeName="stroke-opacity" dur="750ms" values=".35;.25;.15;.1;0;1;.85;.7;.65;.55;.45;.35" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(0)"><animate attributeName="stroke-opacity" dur="750ms" values=".45;.35;.25;.15;.1;0;1;.85;.7;.65;.55;.45" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(30)"><animate attributeName="stroke-opacity" dur="750ms" values=".55;.45;.35;.25;.15;.1;0;1;.85;.7;.65;.55" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(60)"><animate attributeName="stroke-opacity" dur="750ms" values=".65;.55;.45;.35;.25;.15;.1;0;1;.85;.7;.65" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(90)"><animate attributeName="stroke-opacity" dur="750ms" values=".7;.65;.55;.45;.35;.25;.15;.1;0;1;.85;.7" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(120)"><animate attributeName="stroke-opacity" dur="750ms" values=".85;.7;.65;.55;.45;.35;.25;.15;.1;0;1;.85" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(150)"><animate attributeName="stroke-opacity" dur="750ms" values="1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0;1" repeatCount="indefinite"></animate></line></g></svg></div></div></div>';
+/* HEMOS EL ELMENTO div POR EL ELEMENTO jsv-fullspinner*/
+
+var spinnerModal = '<jsv-fullspinner class="JSVcontainer JSVcontainerTransition JSVhideLoading"><div id="JSVgifLoading"><div class="JSVspinnerWhite"><svg viewBox="0 0 64 64"><g stroke-width="4" stroke-linecap="round"><line y1="12" y2="20" transform="translate(32,32) rotate(180)"><animate attributeName="stroke-opacity" dur="750ms" values="1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0;1" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(210)"><animate attributeName="stroke-opacity" dur="750ms" values="0;1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(240)"><animate attributeName="stroke-opacity" dur="750ms" values=".1;0;1;.85;.7;.65;.55;.45;.35;.25;.15;.1" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(270)"><animate attributeName="stroke-opacity" dur="750ms" values=".15;.1;0;1;.85;.7;.65;.55;.45;.35;.25;.15" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(300)"><animate attributeName="stroke-opacity" dur="750ms" values=".25;.15;.1;0;1;.85;.7;.65;.55;.45;.35;.25" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(330)"><animate attributeName="stroke-opacity" dur="750ms" values=".35;.25;.15;.1;0;1;.85;.7;.65;.55;.45;.35" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(0)"><animate attributeName="stroke-opacity" dur="750ms" values=".45;.35;.25;.15;.1;0;1;.85;.7;.65;.55;.45" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(30)"><animate attributeName="stroke-opacity" dur="750ms" values=".55;.45;.35;.25;.15;.1;0;1;.85;.7;.65;.55" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(60)"><animate attributeName="stroke-opacity" dur="750ms" values=".65;.55;.45;.35;.25;.15;.1;0;1;.85;.7;.65" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(90)"><animate attributeName="stroke-opacity" dur="750ms" values=".7;.65;.55;.45;.35;.25;.15;.1;0;1;.85;.7" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(120)"><animate attributeName="stroke-opacity" dur="750ms" values=".85;.7;.65;.55;.45;.35;.25;.15;.1;0;1;.85" repeatCount="indefinite"></animate></line><line y1="12" y2="20" transform="translate(32,32) rotate(150)"><animate attributeName="stroke-opacity" dur="750ms" values="1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0;1" repeatCount="indefinite"></animate></line></g></svg></div></div></jsv-fullspinner>';
 /*---------------------*/

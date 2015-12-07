@@ -24,7 +24,7 @@ body {
     -webkit-user-select: none;
     color: #333333;
     font-size: 14px;
-    font-weight: 200;
+    font-weight: 300;
     height:100%;
     margin:0px;
     padding:0px;
@@ -57,7 +57,7 @@ jsv-main, jsv-container, jsv-view{
     width: 100%;
     top: 0px;
     bottom: 0px;
-    overflow:auto;
+    overflow:hidden;
     z-index: 9}
 
 .JSVcontainerForeground{
@@ -78,6 +78,7 @@ jsv-content{
     bottom: 0px;
     width: 100%;
     overflow-y: auto;
+    z-index: 8;
     -webkit-overflow-scrolling:touch}
 
 .JSVcontainerHide{
@@ -102,7 +103,8 @@ jsv-header{
     font-size: 16px;
     overflow:hidden;
     white-space:nowrap;
-    text-overflow: ellipsis}
+    text-overflow: ellipsis;
+    z-index: 9}
 
 .cWhite{
     color: #fff}
@@ -237,6 +239,48 @@ jsv-modal{
     z-index: 99}
 /*-----------------*/
 
+/*Modal Menu*/
+jsv-modal-menu{
+    background-color:rgba(0,0,0,0.6);
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    bottom: 0px;
+    opacity: 0;
+    z-index: -99;
+    -webkit-transition-duration: .25s;
+    transition-duration: .25s}
+
+jsv-modal-menu jsv-list{
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    padding: 10px;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+    -webkit-transition-duration: .25s;
+    transition-duration: .25s}
+
+jsv-modal-menu jsv-list ul{
+    text-align: center;
+    border: none}
+
+jsv-modal-menu jsv-list ul li{
+    padding-left: 0px;
+    background-color: #fff}
+
+jsv-modal-menu jsv-list ul li:last-child {
+    border: none;
+    margin-top: 10px}
+
+jsv-modal-menu jsv-list ul li:nth-last-child(2) {
+    border: none}
+
+.jsv-modal-menu-show{
+    opacity: 1;
+    z-index: 99}
+/*-----------------*/
+
 /*Menu left*/
 .jsv-main-left{
     border-left: 1px solid #ddd}
@@ -301,12 +345,26 @@ jsv-menu-bottom jsv-menu jsv-option{
     width: 100%}
 /*-----------------*/
 
+/*Notifications*/
+.notification{
+    position: absolute;
+    top: 0px;
+    background-color: #333;
+    color: #fff;
+    width: 100%;
+    height: auto;
+    font-size: 12px;
+    min-height: 30px;
+    line-height: 30px;
+    text-align: center;
+    z-index: 9}
+
 /*LOADMORE RELOAD*/
 jsv-refresh{
-    width: 95%;
-    height: 30px;
-    position: absolute;
-    margin-top: -30px}
+    /*width: 95%;
+    height: 30px;*/
+    /*position: absolute;*/
+    /*margin-top: -30px*/}
 /*Lists*/
 jsv-list{
     width: 100%}
@@ -347,7 +405,8 @@ jsv-list.photo-list jsv-item .photo{
 
 jsv-list.photo-list jsv-item h3{
     line-height: 30px;
-    margin: 0px}
+    margin: 0px;
+    padding: 0px}
 
 jsv-list.photo-list jsv-item h3 span{
     font-size: 12px}
@@ -355,6 +414,7 @@ jsv-list.photo-list jsv-item h3 span{
 jsv-list.photo-list jsv-item p{
     line-height: 20px;
     margin: 0px;
+    padding: 0px;
     overflow:hidden;
     white-space:nowrap;
     text-overflow: ellipsis}
@@ -386,7 +446,8 @@ jsv-list.tweet-list jsv-item .photo{
 
 jsv-list.tweet-list jsv-item h3{
     line-height: 30px;
-    margin: 0px}
+    margin: 0px;
+    padding: 0px}
 
 jsv-list.tweet-list jsv-item h3 span{
     font-size: 12px}
@@ -394,6 +455,7 @@ jsv-list.tweet-list jsv-item h3 span{
 jsv-list.tweet-list jsv-item p{
     line-height: 20px;
     margin: 0px;
+    padding: 0px;
     overflow:hidden}
 
 jsv-list.tweet-list jsv-item .tools{
@@ -457,9 +519,12 @@ jsv-list.video-list jsv-item div:nth-child(2){
     width: 100%} 
 
 jsv-list.video-list jsv-item h4{
+    padding: 0px;
     margin-top: 5px;
     margin-bottom: 5px}
 
+jsv-list.video-list jsv-item p{
+    padding: 0px}
 
 /*List cards*/
 jsv-list.card-list{
@@ -639,36 +704,53 @@ jsv-room-input button{
 /*Menu Circle*/
 jsv-menu-circle{
     position: absolute;
-    width: 100%;
-    top: 0px;
-    bottom: 0px;
-    background-color:rgba(0,0,0,0.6)
-}
-jsv-menu-circle jsv-button{
-    position: absolute;
-    bottom: 10px;
     right: 10px;
     font-size: 25px;
     background-color: #333333;
     color: #f8dc3c;
+    -webkit-transition-duration: .25s;
+    transition-duration: .25s;
+    overflow: hidden;
+    bottom: 10px;
     width: 50px;
     height: 50px;
-    border-radius: 25px;
-    line-height: 45px;
-    text-align: center}
+    border-radius: 50%;
+    line-height: 50px;
+    text-align: right;
+    z-index: 9}
 
-jsv-menu-circle jsv-button:before{
-    content: "+"}  
+jsv-menu-circle:before{
+    padding-right: 12px;
+    content: "+"} 
 
-jsv-menu-circle jsv-content{
-    background: #fff;
-    top: auto;
-    bottom:0px;
-}    
+.JSVmenuCircleOpen{
+    right: 0px;
+    bottom: 0px;
+    width: 100%;
+    border-radius: 0px;
+    line-height: 50px;
+    text-align: right}
+
+.JSVmenuCircleOpen:before{
+    padding-right: 12px;
+    padding-left: 10px;
+    content: "x"} 
+
+jsv-menu-circle jsv-list{
+    width: 100%;
+    font-size: 14px;
+    line-height: 30px}
+
+jsv-menu-circle ul, jsv-menu-circle li{
+    text-align: left;
+    border: none}
 
 /*Spinner in scroll and modal*/
-#JSVcontainerLoading{
+jsv-fullspinner{
+    position: absolute;
+    width: 100%;
     top: 0px;
+    bottom: 0px;
     background-color:rgba(0,0,0,0.6)}
 
 #JSVgifLoading{
@@ -770,6 +852,65 @@ jsv-menu-circle jsv-content{
     margin:0}
 /*-----------------*/
 
+/*SlidesAdvertising*/
+.JSVindicatorAd ul, .JSVindicatorAd li {
+    padding:10px;
+    margin:0}
+
+.JSVwrapperAd {
+    width: 100%;
+    top: 0px;
+    bottom: 0px;
+    height: 100%;
+    float:left;
+    overflow:hidden}
+
+.JSVscrollerAd {
+    height:95%;
+    float:left;
+    padding:0}
+
+.JSVscrollerAd ul {
+    padding: 20px;
+    list-style:none;
+    display:block;
+    float:left;
+    width:100%;
+    height:100%;
+    padding:0;
+    margin:0;
+    text-align:left}
+
+.JSVscrollerAd li {
+    border: solid 1px #ddd;
+    border-radius: 10px;
+    display:block; 
+    float:left}
+
+.JSVscrollerAd .title{
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 500}
+
+.JSVscrollerAd .description{
+    padding: 10px;
+    font-size: 14px}
+
+.JSVscrollerAd .photo{
+    width:100%;
+    height: 170px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover}
+
+.JSVscrollerAd li {
+    margin-right: 10px}
+
+.JSVscrollerAd li:first-child {
+    margin-left: 10px}
+
+/*-----------------*/
+
 /*Divs translate and transition*/
 .JSVcontainerLeft{
     -webkit-transform: translate3d(-100%, 0, 0);
@@ -783,6 +924,10 @@ jsv-menu-circle jsv-content{
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0)}
 
+.JSVcontainerTop{
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0)}
+
 .JSVcontainerBottom{
     -webkit-transform: translate3d(0, 100%, 0);
     transform: translate3d(0, 100%, 0)}
@@ -795,3 +940,11 @@ jsv-menu-circle jsv-content{
     -webkit-transition-duration: .25s;
     transition-duration: .25s}
 /*-----------------*/
+
+.JSVstartLoading{
+    -webkit-transform: translate3d(0, 44px, 0);
+    transform: translate3d(0, 44px, 0)}
+
+.JSVfinishLoading{
+    -webkit-transform: translate3d(0, 44px, 0);
+    transform: translate3d(0, 44px, 0)}
