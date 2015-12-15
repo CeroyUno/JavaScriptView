@@ -110,6 +110,11 @@ window.addEventListener('load', function() {
             template: 'views/viewCircle.html',
             controller: 'viewCircle'
         },
+        viewImagePopup: {
+            url: '/viewImagePopup',
+            template: 'views/viewImagePopup.html',
+            controller: 'viewImagePopup'
+        },
         viewListPhotosLoadMoreLocal: {
             url: '/viewListPhotosLoadMoreLocal',
             template: 'views/viewListPhotosLoadMoreLocal.html',

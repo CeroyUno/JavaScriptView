@@ -107,6 +107,11 @@ $JSView.controller = {
         $JSView.initMenuCircle(e)
         
     },
+    viewImagePopup: function(e){
+        $JSView.dataView({
+            'title': 'Image Popup'
+        },e)
+    },
     viewListPhotosLoadMoreLocal: function(e){
         $JSView.dataView({
             'title': 'Photos initLoadMore Local'

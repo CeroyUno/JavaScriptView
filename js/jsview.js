@@ -359,6 +359,19 @@ $JSView = {
         objElement.classList.remove('JSVmenuCircleOpen');
         objElement.classList.remove('JSVcontainerCenter');
     },
+	//OPEN CLOSE IMAGE POPUP
+    openImage: function(image,e){
+        var objElement = $v.select('jsv-image-popup#' + e);
+		objElement.style.backgroundImage = image.style.backgroundImage;
+        objElement.classList.add('show');
+    },
+    closeImage: function(e){
+        var objElement = $v.select('jsv-image-popup#' + e);
+        objElement.classList.remove('show');
+        setTimeout(function(){
+            objElement.style.backgroundImage = '';
+        },250);
+    },
     //ACTION BACK BUTTON
     back: function(){
         //Return to previous url
