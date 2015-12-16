@@ -1,0 +1,20 @@
+<jsv-header>
+    <button-header-left onclick="$JSView.back()">< Back</button-header-left>
+    {{title}}
+    <button-header-right></button-header-right>
+</jsv-header>
+<jsv-content>
+    <button onclick="$JSView.openMenuModal('menuModal')" class="bgYellow">Open Bottom Menu</button>
+</jsv-content>
+<jsv-modal-menu id="menuModal">
+    <jsv-list>
+        <ul>
+            <li>Send via Email</li>
+            <li>Share via...</li>
+            <li>Mute</li>
+            <li>Block</li>
+            <li>Report</li>
+            <li onclick="$JSView.closeMenuModal('menuModal')">Cancel</li>
+        </ul>
+    </jsv-list>
+</jsv-modal-menu>

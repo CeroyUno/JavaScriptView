@@ -1,5 +1,6 @@
 window.addEventListener('load', function() {
-
+    
+    //You can change (bottom) or (left)
     $JSView.run('bottom');
    
     $JSView.declareMenu({
@@ -35,59 +36,104 @@ window.addEventListener('load', function() {
             url: '/viewMenuD',
             template: 'views/viewMenuD.html',
             controller: 'viewMenuD'
-        },
-        viewMenuE: {
-            url: '/viewMenuE',
-            template: 'views/viewMenuE.html',
-            controller: 'viewMenuE'
         }
     });
     
     $JSView.declareView({ 
-        viewA: {
-            url: '/viewA',
-            template: 'views/viewA.html',
-            controller: 'viewA'
+        viewGeneral: {
+            url: '/viewGeneral',
+            template: 'views/viewGeneral.html',
+            controller: 'viewGeneral'
         },
-        viewB: {
-            url: '/viewB',
-            template: 'views/viewB.html',
-            controller: 'viewB'
+        viewForms: {
+            url: '/viewForms',
+            template: 'views/viewForms.html',
+            controller: 'viewForms'
         },
-        viewC: {
-            url: '/viewC',
-            template: 'views/viewC.html',
-            controller: 'viewC'
+        viewGrids: {
+            url: '/viewGrids',
+            template: 'views/viewGrids.html',
+            controller: 'viewGrids'
         },
-        viewD: {
-            url: '/viewD',
-            template: 'views/viewD.html',
-            controller: 'viewD'
+        viewSlide: {
+            url: '/viewSlide',
+            template: 'views/viewSlide.html',
+            controller: 'viewSlide'
         },
-        viewE: {
-            url: '/viewE',
-            template: 'views/viewE.html',
-            controller: 'viewE'
+        viewRoomChat: {
+            url: '/viewRoomChat',
+            template: 'views/viewRoomChat.html',
+            controller: 'viewRoomChat'
         },
-        viewF: {
-            url: '/viewF',
-            template: 'views/viewF.html',
-            controller: 'viewF'
+        viewTabs: {
+            url: '/viewTabs',
+            template: 'views/viewTabs.html',
+            controller: 'viewTabs'
         },
-        viewG: {
-            url: '/viewG',
-            template: 'views/viewG.html',
-            controller: 'viewG'
+        viewList: {
+            url: '/viewList',
+            template: 'views/viewList.html',
+            controller: 'viewList'
         },
-        viewH: {
-            url: '/viewH',
-            template: 'views/viewH.html',
-            controller: 'viewH'
+        viewListPhotos: {
+            url: '/viewListPhotos',
+            template: 'views/viewListPhotos.html',
+            controller: 'viewListPhotos'
         },
+        viewListVideos: {
+            url: '/viewListVideos',
+            template: 'views/viewListVideos.html',
+            controller: 'viewListVideos'
+        },
+        viewTweets: {
+            url: '/viewTweets',
+            template: 'views/viewTweets.html',
+            controller: 'viewTweets'
+        },
+        viewCards: {
+            url: '/viewCards',
+            template: 'views/viewCards.html',
+            controller: 'viewCards'
+        },
+        viewOptions: {
+            url: '/viewOptions',
+            template: 'views/viewOptions.html',
+            controller: 'viewOptions'
+        },
+        viewNotification: {
+            url: '/viewNotification',
+            template: 'views/viewNotification.html',
+            controller: 'viewNotification'
+        },
+        viewCircle: {
+            url: '/viewCircle',
+            template: 'views/viewCircle.html',
+            controller: 'viewCircle'
+        },
+        viewImagePopup: {
+            url: '/viewImagePopup',
+            template: 'views/viewImagePopup.html',
+            controller: 'viewImagePopup'
+        },
+        viewListPhotosLoadMoreLocal: {
+            url: '/viewListPhotosLoadMoreLocal',
+            template: 'views/viewListPhotosLoadMoreLocal.html',
+            controller: 'viewListPhotosLoadMoreLocal'
+        },
+        viewListPhotosLoadMoreRemote: {
+            url: '/viewListPhotosLoadMoreRemote',
+            template: 'views/viewListPhotosLoadMoreRemote.html',
+            controller: 'viewListPhotosLoadMoreRemote'
+        },
+        viewListVideosLoadMoreRemote: {
+            url: '/viewListVideosLoadMoreRemote',
+            template: 'views/viewListVideosLoadMoreRemote.html',
+            controller: 'viewListVideosLoadMoreRemote'
+        }
     });
     
     $JSView.declareModal({
-        modalA: {
+        modal: {
             url: '/modal',
             template: 'views/modal.html',
             controller: 'modal'

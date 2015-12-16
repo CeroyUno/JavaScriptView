@@ -1,0 +1,43 @@
+<jsv-header>
+    <button-header-left onclick="$JSView.back()">< Back</button-header-left>
+    {{title}}
+    <button-header-right></button-header-right>
+</jsv-header>
+<jsv-content>
+    <jsv-list class="card-list">
+        <jsv-item class="item">
+            <h3>Title</h3>
+            <div onclick="$JSView.openImage(this, 'popupimage')" style="background-image: url('../img/photoCatA.jpg')" class="photo"></div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <div class="tools row">
+                <div class="col">Opt 1</div>
+                <div class="col">Opt 2</div>
+                <div class="col">Opt 3</div>
+                <div class="col">Opt 4</div>
+            </div>
+        </jsv-item>
+        <jsv-item class="item">
+            <h3>Title</h3>
+            <div onclick="$JSView.openImage(this, 'popupimage')" style="background-image: url('../img/photoCatB.jpg')" class="photo"></div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <div class="tools row">
+                <div class="col">Opt 1</div>
+                <div class="col">Opt 2</div>
+                <div class="col">Opt 3</div>
+                <div class="col">Opt 4</div>
+            </div>
+        </jsv-item>
+    </jsv-list>
+</jsv-content>
+<jsv-image-popup id="popupimage">
+    <jsv-header>
+        <button-header-left></button-header-left>
+        <button-header-right onclick="$JSView.closeImage('popupimage')">Close</button-header-right>
+    </jsv-header> 
+    <div class="tools row">
+        <div class="col">Opt 1</div>
+        <div class="col">Opt 2</div>
+        <div class="col">Opt 3</div>
+        <div class="col">Opt 4</div>
+    </div>
+</jsv-image-popup>

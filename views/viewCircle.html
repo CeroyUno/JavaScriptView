@@ -1,0 +1,19 @@
+<jsv-header>
+    <button-header-left onclick="$JSView.back()">< Back</button-header-left>
+    {{title}}
+    <button-header-right></button-header-right>
+</jsv-header>
+<jsv-content>
+</jsv-content>
+<jsv-menu-circle id="menuCircle">
+    <jsv-list>
+        <ul>
+            <li>Send via Email</li>
+            <li>Share via...</li>
+            <li>Mute</li>
+            <li>Block</li>
+            <li>Report</li>
+            <li onclick="$JSView.closeMenuCircle('menuCircle')">Cancel</li>
+        </ul>
+    </jsv-list>
+</jsv-menu-circle>
