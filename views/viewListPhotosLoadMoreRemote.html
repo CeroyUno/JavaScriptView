@@ -7,6 +7,9 @@
     <jsv-refresh></jsv-refresh>
     <jsv-list class="photo-list">
         <jsv-item class="item">
+            <div class="swiperight"> 
+               <div class="swipeText" >Options</div>
+            </div>
             <div class="photo" style="background-image: url({{image}})"></div>
             <h3>{{name}}</h3>
             <p>{{text}}</p>
@@ -14,3 +17,16 @@
     </jsv-list>
     <jsv-loadmore></jsv-loadmore>
 </jsv-content>
+
+<jsv-modal-menu id="menuModal">
+    <jsv-list>
+        <ul>
+            <li id="deleteElemento">Delete</li>
+            <li>Share via...</li>
+            <li>Mute</li>
+            <li>Block</li>
+            <li>Report</li>
+            <li onclick="$JSView.closeMenuModal('menuModal','viewListPhotosLoadMoreRemote')">Cancel</li>
+        </ul>
+    </jsv-list>
+</jsv-modal-menu>
