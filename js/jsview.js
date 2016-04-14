@@ -290,13 +290,16 @@ $JSView = {
         } 
         $v.select('#' + idPatrent + ' #' + e).onclick = function(){
             if(liClicked == false){
-                $JSView.closeMenuModal(e);
+                $JSView.closeMenuModal(e,null);
             }
             liClicked = false;
         }
     },
-    closeMenuModal: function(e){
+    closeMenuModal: function(e,view){
         var idPatrent = $v.select('#' + e).parentNode.id;
+        if(view != null){
+            idPatrent = view;
+        }
         //Change the class and hide modal
         $v.select('#' + idPatrent + ' #' + e).classList.remove('jsv-modal-menu-show');
         $v.select('#' + idPatrent + ' #' + e + ' jsv-list').classList.remove('JSVcontainerCenter');
@@ -682,7 +685,7 @@ $JSView = {
                         },250)
 
                         console.timeEnd('query');
-                        //console.groupEnd();
+                        console.groupEnd();
 
                     }).catch(function() {
                         // an error occurred
@@ -737,7 +740,7 @@ $JSView = {
                     $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
 
                     console.timeEnd('query');
-                    //console.groupEnd();
+                    console.groupEnd();
 
                 }).catch(function() {
                     // an error occurred
@@ -748,8 +751,64 @@ $JSView = {
 
             }
         }
-    }
-    
+    },
+    swipeRight:function(obj,e){
+        // hacer swipe a la izquierda de los listados 
+       setTimeout(function(){
+         console.log("swipeRight: " + e);
+             var listado      = document.getElementById(e).getElementsByTagName('jsv-item');
+             var listadoClass = document.getElementById(e).getElementsByTagName('jsv-list')[0].className;
+            for(var i = 0 ; i< listado.length;i++)
+            {  
+                var element = listado[i];
+                var touchControl = new Hammer(element);
+                touchControl.on("dragright",function(event,element){
+                                              alert("Drag");
+                                              var elementToDrag = element;
+                                              elementToDrag.style.left = event.deltaX + 'px';                                               
+                                            })
+                            .on("swipeleft",function(event,element){
+                                              var elementToDelete;
+                                              if(event.target.tagName != "JSV-ITEM")
+                                                elementToDelete = event.target.parentElement;
+                                               else
+                                                elementToDelete = event.target;
+                                              if(elementToDelete.style.left == '100px')
+                                                 elementToDelete.style.left = 0; 
+                                              else
+                                                elementToDelete.style.right = '100px';
+                                            })
+                            .on("swiperight",function(event,element){
+                                              var elementToDelete;
+                                              if(event.target.tagName != "JSV-ITEM")
+                                                elementToDelete = event.target.parentElement;
+                                              else
+                                                elementToDelete = event.target; 
+                                              if(elementToDelete.style.right == '100px')
+                                                 elementToDelete.style.left = 0; 
+                                              else{
+                                                 elementToDelete.style.left = '100px';
+                                                 elementToDelete.childNodes[1].addEventListener('click',function(evt){
+                                                    $v.select('#'+e+' #menuModal').classList.add('jsv-modal-menu-show');
+                                                    $v.select('#'+e+' #menuModal').classList.add('JSVcontainerCenter');
+                                                    $v.select('#'+e+' #menuModal #deleteElemento').addEventListener('click',function(){
+                                                        $JSView.closeMenuModal('menuModal',e);
+                                                        setTimeout(function(){
+                                                            elementToDelete.remove();
+                                                        },1000);
+                                                    });
+                                                 });
+                                              }
+                                              
+                            })
+                            .on("release",function(event){
+                                              var elementToReset = event.target;
+                                              elementToReset.style.left = 0;
+                            })
+
+            }
+       },1000);
+    },  
 }
 
 //This function show or hide modal Spinner
