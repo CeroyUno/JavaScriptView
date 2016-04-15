@@ -324,6 +324,29 @@ $JSView = {
             },2000);
         },100);
     },
+    //INIT PLACEHOLDER FORM
+    initFormPlaceholder: function(e,form){
+        //Keep dom element in a variable
+        var objInputs = $v.selectAll('#' + e + ' #' + form + ' input');
+        var objTextareas = $v.selectAll('#' + e + ' #' + form + ' textarea');
+        //Read all severals elements type inputs from form
+        for(var i = 0; i < objInputs.length; i++){
+            objInputs[i].onkeyup = function(e){
+                if(this.value != '')
+                    this.parentElement.childNodes[0].classList.add('show');
+                else
+                    this.parentElement.childNodes[0].classList.remove('show');
+            }
+        }
+        for(var i = 0; i < objTextareas.length; i++){
+            objTextareas[i].onkeyup = function(e){
+                if(this.value != '')
+                    this.parentElement.childNodes[0].classList.add('show');
+                else
+                    this.parentElement.childNodes[0].classList.remove('show');
+            }
+        }
+    },
     //INIT MENU CIRCLE
     initMenuCircle: function(e){
         //Keep dom element in a variable

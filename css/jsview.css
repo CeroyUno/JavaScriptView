@@ -44,6 +44,23 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
     font-weight: 200;
     line-height: 16px}
 
+form label{
+    background-color: #fff;
+    position: relative;
+    display: block;
+    padding: 6px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px}
+
+placeholder{
+    opacity: 0;
+    -webkit-transition-duration: .25s;
+    transition-duration: .25s;
+    font-size: 11px}
+        
+placeholder.show{
+    opacity:1}
+
 textarea{
     width: 100%;
     height: 100px}
@@ -145,10 +162,15 @@ button{
     transition: .50s;
 }
 
-input, textarea{
+input{
     width: 100%;
     height: 42px;
     padding-left: 10px;
+    border: none}
+
+textarea{
+    width: 100%;
+    height: 140px;
     border: none}
 
 .paddingFull10{

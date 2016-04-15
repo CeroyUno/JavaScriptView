@@ -30,6 +30,14 @@ $JSView.controller = {
             'title': 'Forms elements'
         },e)
     },
+	viewFormsPlaceholder: function(e){
+        $JSView.dataView({
+            'title': 'Forms elements placeholder'
+        },e)
+        
+        $JSView.initFormPlaceholder(e, 'formExample');
+        
+    },
     viewGrids: function(e){
         $JSView.dataView({
             'title': 'Grids'

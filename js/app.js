@@ -50,6 +50,11 @@ window.addEventListener('load', function() {
             template: 'views/viewForms.html',
             controller: 'viewForms'
         },
+		viewFormsPlaceholder: {
+            url: '/viewFormsPlaceholder',
+            template: 'views/viewFormsPlaceholder.html',
+            controller: 'viewFormsPlaceholder'
+        },
         viewGrids: {
             url: '/viewGrids',
             template: 'views/viewGrids.html',
