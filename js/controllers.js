@@ -181,29 +181,25 @@ $JSView.controller = {
             'title': 'Photos initLoadMore Remote'
         },e),
 
-        $JSView.initScroll({
+        $JSView.initLoadMore({
             type: 'GET', 
             url:'http://api.javascriptview.com/loadmore'
         },e),
 
-        // $JSView.reload({
-        //     type: 'GET', 
-        //     url:'http://api.javascriptview.com/reload'
-        // },e),
-
-        $JSView.swipeRight({},e);
+        $JSView.reload({
+            type: 'GET', 
+            url:'http://api.javascriptview.com/reload'
+        },e);  
     },
     viewListVideosLoadMoreRemote: function(e){
         $JSView.dataView({
             'title': 'Videos initLoadMore Remote'
         },e),
 
-        $JSView.initScroll({
+        $JSView.initLoadMore({
             type: 'GET', 
             url:'http://api.javascriptview.com/videos'
-        },e),
-        
-        $JSView.swipeRight({},e);
+        },e);  
     },
     modal: function(e){
         $JSView.dataView({

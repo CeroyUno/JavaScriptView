@@ -158,9 +158,7 @@ button{
     display: block;
     padding: 6px;
     border: 1px solid #ddd;
-    font-size: 14px;
-    transition: .50s;
-}
+    font-size: 14px}
 
 input{
     width: 100%;
@@ -285,10 +283,6 @@ jsv-modal-menu jsv-list{
     -webkit-transition-duration: .25s;
     transition-duration: .25s}
 
-.video-list jsv-modal-menu{
-    bottom:300px;
-}
-
 jsv-modal-menu jsv-list ul{
     text-align: center;
     border: none}
@@ -307,31 +301,6 @@ jsv-modal-menu jsv-list ul li:nth-last-child(2) {
 .jsv-modal-menu-show{
     opacity: 1;
     z-index: 99}
-/*-----------------*/
-
-/*Swipe Menu*/
-
-#viewListPhotosLoadMoreRemote jsv-modal-menu jsv-list {
-    position: absolute;
-    width: 100%;
-    bottom: 300px;
-    padding: 10px;
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0);
-    -webkit-transition-duration: .25s;
-    transition-duration: .25s}
-
-#viewListVideosLoadMoreRemote jsv-modal-menu jsv-list {
-    position: absolute;
-    width: 100%;
-    bottom: 300px;
-    padding: 10px;
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0);
-    -webkit-transition-duration: .25s;
-    transition-duration: .25s}
-
-
 /*-----------------*/
 
 /*Menu left*/
@@ -445,74 +414,6 @@ jsv-list.photo-list jsv-item{
     border-bottom: 1px solid #ddd;
     padding-left: 70px}
 
-jsv-list.photo-list jsv-item .swiperight {
-    background-color: #9E9E9E;
-    position: absolute;
-    float: left;
-    width: 120px;
-    margin-left: 0;
-    height: 100%;
-    color: #FFF;
-    text-align: center;
-    left: -123px;
-    right: 0;
-    top:0;
-}
-
-jsv-list.video-list jsv-item .swiperight {
-    background-color: #9E9E9E;
-    position: absolute;
-    float: left;
-    width: 85px;
-    margin-left: 0;
-    height: 100%;
-    color: #FFF;
-    text-align: center;
-    left: -86px;
-    right: 0;
-}
-
-#viewListVideosLoadMoreRemote .swiperight {
-    background-color: #9E9E9E;
-    position: absolute;
-    float: left;
-    width: 120px;
-    margin-left: 0;
-    height: 100%;
-    color: #FFF;
-    text-align: center;
-    left: -132px;
-    right: 0;
-}
-
-#viewListVideosLoadMoreRemote .swipeText {
-    font-weight: bold;
-    color: #00F;
-    font-size: medium;
-    text-align: center;
-    margin-top: 38%;
-    background-color: #9E9E9E;
-}
-
-.swipeText {
-    font-weight: bold;
-    color: #00F;
-    font-size: medium;
-    text-align: center;
-    margin-top: 22px;
-}
-
-jsv-list.photo-list jsv-list.JSVcontainerCenter {
-    position: absolute;
-    width: 100%;
-    bottom: 0px;
-    padding: 10px;
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0);
-    -webkit-transition-duration: .25s;
-    transition-duration: .25s;
-}
-
 jsv-list.photo-list jsv-item .photo{
     background-position: center center;
     background-repeat: no-repeat;
@@ -623,8 +524,7 @@ jsv-list.video-list jsv-item div:nth-child(1){
     -ms-flex: 1;
     flex: 1;
     display: block;
-    /*width: 100%;*/
-}
+    width: 100%}
 
 jsv-list.video-list jsv-item div:nth-child(2){
     padding: 1px 1px 1px 7px;
@@ -636,11 +536,9 @@ jsv-list.video-list jsv-item div:nth-child(2){
     flex: 1;
     display: block;
     padding: 5px;
-    padding-left: 113px;
-    padding-right: 57px;
-    width: 100%;
-    margin-right: 7px;
-    } 
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%} 
 
 jsv-list.video-list jsv-item h4{
     padding: 0px;
