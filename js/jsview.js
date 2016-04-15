@@ -612,35 +612,68 @@ $JSView = {
         //Remove the previous contents of the container
         $v.select('#' + e + ' jsv-content jsv-list').innerHTML = '';
         
-        //Load init data from external service
         var contentView;
-        $JSView.query(obj.type, obj.url).then(function(result) {
-            //Code depending on result
-            console.log(JSON.parse(result));
+        
+        if(obj.type == undefined && obj.url == undefined ){
             
-            console.group('query');
-            console.time('query');
-            contentView = '';
-            var resultQuery = JSON.parse(result);
-            for (key in resultQuery) {
-                itemInter = item;
-                for (var x in resultQuery[key]) {
-                    if(!resultQuery[key][x]) resultQuery[key][x]='';
-                    itemInter = itemInter.replace(new RegExp('{{'+x+'}}', 'g'), resultQuery[key][x]);
+            if (typeof obj.isArray === 'undefined') {
+                //Code depending on result
+                console.log(obj);
+                    
+                console.group('query');
+                console.time('query');
+                contentView = '';
+                var resultQuery = obj;
+                
+                for (key in resultQuery) {
+                    itemInter = item;
+                    for (var x in resultQuery[key]) {
+                        if(!resultQuery[key][x]) resultQuery[key][x]='';
+                        itemInter = itemInter.replace(new RegExp('{{'+x+'}}', 'g'), resultQuery[key][x]);
+                    }
+                    contentView += itemInter;
                 }
-                contentView += itemInter;
+
+                //Add the new contents of the container
+                $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
+
+                console.timeEnd('query');
+                console.groupEnd();
+
             }
-
-            //Add the new contents of the container
-            $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
-
-            console.timeEnd('query');
-            console.groupEnd();
             
-        }).catch(function() {
-            //An error occurred
-            console.log('An error occurred');
-        });
+        }
+        
+        if(obj.type != undefined && obj.url != undefined ){
+            //Load init data from external service
+            $JSView.query(obj.type, obj.url).then(function(result) {
+                //Code depending on result
+                console.log(JSON.parse(result));
+
+                console.group('query');
+                console.time('query');
+                contentView = '';
+                var resultQuery = JSON.parse(result);
+                for (key in resultQuery) {
+                    itemInter = item;
+                    for (var x in resultQuery[key]) {
+                        if(!resultQuery[key][x]) resultQuery[key][x]='';
+                        itemInter = itemInter.replace(new RegExp('{{'+x+'}}', 'g'), resultQuery[key][x]);
+                    }
+                    contentView += itemInter;
+                }
+
+                //Add the new contents of the container
+                $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
+
+                console.timeEnd('query');
+                console.groupEnd();
+
+            }).catch(function() {
+                //An error occurred
+                console.log('An error occurred');
+            });
+        }
 
         if(obj.refresh == true){
             
@@ -731,7 +764,7 @@ $JSView = {
             
         }
 
-        if(obj.loadmore == true){
+        if(obj.loadmore == true){ 
             //Add spinner
             $v.select('#' + e + ' jsv-content jsv-loadmore').innerHTML = spinner;
             

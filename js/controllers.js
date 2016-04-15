@@ -61,6 +61,27 @@ $JSView.controller = {
         });
         
     },
+    viewSlideAdvertising: function(e){
+        
+        $JSView.dataView({
+            'title': 'Slide Advertising',
+            'titleA': 'Title Advertising A',
+            'descriptionA': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'photoA': '../img/productA.png',
+            'titleB': 'Slide 2',
+            'descriptionB': 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem.',
+            'photoB': '../img/productB.png',
+            'titleC': 'Slide 3',
+            'descriptionC': 'But I must explain to you how all this mistaken idea.',
+            'photoC': '../img/productC.png'
+        },e)
+        
+        $JSView.initSlideAdvertising('#slide', {
+            width: innerWidth,
+            height: 300
+        });
+        
+    },
     viewRoomChat: function(e){
         $JSView.dataView({
             'title': 'Room chat'
@@ -124,82 +145,79 @@ $JSView.controller = {
         $JSView.dataView({
             'title': 'Photos initLoadMore Local'
         },e),
-
-        $JSView.initLoadMore({
-            item1: {
+        
+        $JSView.initScroll([
+            {
                 'name': 'User 1',
                 'text': 'Lorem ipsum dolor sit amet.'
             },
-            item2: {           
+            {           
                 'name': 'User 2',
                 'text': 'Eaque ipsa quae ab illo inventore.'
             },
-            item3: {
+            {
                 'name': 'User 3',
                 'text': 'But I must explain to you how.'
             },
-            item4: {
-                'name': 'User 1',
+            {
+                'name': 'User 4',
                 'text': 'Lorem ipsum dolor sit amet.'
             },
-            item5: {           
-                'name': 'User 2',
+            {           
+                'name': 'User 5',
                 'text': 'Eaque ipsa quae ab illo inventore.'
             },
-            item6: {
-                'name': 'User 3',
+            {
+                'name': 'User 6',
                 'text': 'But I must explain to you how.'
             },
-            item7: {
-                'name': 'User 1',
+            {
+                'name': 'User 7',
                 'text': 'Lorem ipsum dolor sit amet.'
             },
-            item8: {           
-                'name': 'User 2',
+            {           
+                'name': 'User 8',
                 'text': 'Eaque ipsa quae ab illo inventore.'
             },
-            item9: {
-                'name': 'User 3',
+            {
+                'name': 'User 9',
                 'text': 'But I must explain to you how.'
             },
-            item10: {
-                'name': 'User 1',
+            {
+                'name': 'User 10',
                 'text': 'Lorem ipsum dolor sit amet.'
             },
-            item11: {           
-                'name': 'User 2',
+            {           
+                'name': 'User 11',
                 'text': 'Eaque ipsa quae ab illo inventore.'
             },
-            item12: {
-                'name': 'User 3',
+            {
+                'name': 'User 12',
                 'text': 'But I must explain to you how. End'
             }
-        },e); 
+        ],e);
     },
     viewListPhotosLoadMoreRemote: function(e){
         $JSView.dataView({
             'title': 'Photos initLoadMore Remote'
-        },e),
+        },e);
 
-        $JSView.initLoadMore({
+        $JSView.initScroll({
             type: 'GET', 
-            url:'http://api.javascriptview.com/loadmore'
-        },e),
-
-        $JSView.reload({
-            type: 'GET', 
-            url:'http://api.javascriptview.com/reload'
-        },e);  
+            url:'http://api.javascriptview.com/loadmore',
+            loadmore: true
+        },e);
     },
     viewListVideosLoadMoreRemote: function(e){
         $JSView.dataView({
             'title': 'Videos initLoadMore Remote'
-        },e),
-
-        $JSView.initLoadMore({
+        },e);
+        
+        $JSView.initScroll({
             type: 'GET', 
-            url:'http://api.javascriptview.com/videos'
-        },e);  
+            url:'http://api.javascriptview.com/videos',
+            loadmore: true
+        },e);
     },
     modal: function(e){
         $JSView.dataView({
