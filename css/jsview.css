@@ -44,6 +44,23 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
     font-weight: 200;
     line-height: 16px}
 
+form label{
+    background-color: #fff;
+    position: relative;
+    display: block;
+    padding: 6px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px}
+
+placeholder{
+    opacity: 0;
+    -webkit-transition-duration: .25s;
+    transition-duration: .25s;
+    font-size: 11px}
+        
+placeholder.show{
+    opacity:1}
+
 textarea{
     width: 100%;
     height: 100px}
@@ -141,14 +158,17 @@ button{
     display: block;
     padding: 6px;
     border: 1px solid #ddd;
-    font-size: 14px;
-    transition: .50s;
-}
+    font-size: 14px}
 
-input, textarea{
+input{
     width: 100%;
     height: 42px;
     padding-left: 10px;
+    border: none}
+
+textarea{
+    width: 100%;
+    height: 140px;
     border: none}
 
 .paddingFull10{
@@ -263,10 +283,6 @@ jsv-modal-menu jsv-list{
     -webkit-transition-duration: .25s;
     transition-duration: .25s}
 
-.video-list jsv-modal-menu{
-    bottom:300px;
-}
-
 jsv-modal-menu jsv-list ul{
     text-align: center;
     border: none}
@@ -285,31 +301,6 @@ jsv-modal-menu jsv-list ul li:nth-last-child(2) {
 .jsv-modal-menu-show{
     opacity: 1;
     z-index: 99}
-/*-----------------*/
-
-/*Swipe Menu*/
-
-#viewListPhotosLoadMoreRemote jsv-modal-menu jsv-list {
-    position: absolute;
-    width: 100%;
-    bottom: 300px;
-    padding: 10px;
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0);
-    -webkit-transition-duration: .25s;
-    transition-duration: .25s}
-
-#viewListVideosLoadMoreRemote jsv-modal-menu jsv-list {
-    position: absolute;
-    width: 100%;
-    bottom: 300px;
-    padding: 10px;
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0);
-    -webkit-transition-duration: .25s;
-    transition-duration: .25s}
-
-
 /*-----------------*/
 
 /*Menu left*/
@@ -423,74 +414,6 @@ jsv-list.photo-list jsv-item{
     border-bottom: 1px solid #ddd;
     padding-left: 70px}
 
-jsv-list.photo-list jsv-item .swiperight {
-    background-color: #9E9E9E;
-    position: absolute;
-    float: left;
-    width: 120px;
-    margin-left: 0;
-    height: 100%;
-    color: #FFF;
-    text-align: center;
-    left: -123px;
-    right: 0;
-    top:0;
-}
-
-jsv-list.video-list jsv-item .swiperight {
-    background-color: #9E9E9E;
-    position: absolute;
-    float: left;
-    width: 85px;
-    margin-left: 0;
-    height: 100%;
-    color: #FFF;
-    text-align: center;
-    left: -86px;
-    right: 0;
-}
-
-#viewListVideosLoadMoreRemote .swiperight {
-    background-color: #9E9E9E;
-    position: absolute;
-    float: left;
-    width: 120px;
-    margin-left: 0;
-    height: 100%;
-    color: #FFF;
-    text-align: center;
-    left: -132px;
-    right: 0;
-}
-
-#viewListVideosLoadMoreRemote .swipeText {
-    font-weight: bold;
-    color: #00F;
-    font-size: medium;
-    text-align: center;
-    margin-top: 38%;
-    background-color: #9E9E9E;
-}
-
-.swipeText {
-    font-weight: bold;
-    color: #00F;
-    font-size: medium;
-    text-align: center;
-    margin-top: 22px;
-}
-
-jsv-list.photo-list jsv-list.JSVcontainerCenter {
-    position: absolute;
-    width: 100%;
-    bottom: 0px;
-    padding: 10px;
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0);
-    -webkit-transition-duration: .25s;
-    transition-duration: .25s;
-}
-
 jsv-list.photo-list jsv-item .photo{
     background-position: center center;
     background-repeat: no-repeat;
@@ -601,8 +524,7 @@ jsv-list.video-list jsv-item div:nth-child(1){
     -ms-flex: 1;
     flex: 1;
     display: block;
-    /*width: 100%;*/
-}
+    width: 100%}
 
 jsv-list.video-list jsv-item div:nth-child(2){
     padding: 1px 1px 1px 7px;
@@ -614,11 +536,9 @@ jsv-list.video-list jsv-item div:nth-child(2){
     flex: 1;
     display: block;
     padding: 5px;
-    padding-left: 113px;
-    padding-right: 57px;
-    width: 100%;
-    margin-right: 7px;
-    } 
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%} 
 
 jsv-list.video-list jsv-item h4{
     padding: 0px;
@@ -1055,10 +975,56 @@ jsv-fullspinner{
 
 /*-----------------*/
 
+/*Slide HammerJs*/
+#viewSlideHammer .JSVscrollerHammer ul.animate {
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  -o-transition: all .3s;
+  transition: all .3s;
+}
+#viewSlideHammer .JSVscrollerHammer.animate {
+  -webkit-transition: all .15s;
+  -moz-transition: all .15s;
+  -o-transition: all .15s;
+  transition: all .15s;
+}
+.JSVscrollerHammer ul {
+  transform: translate3d(0%,0,0) scale3d(1,1,1);
+  -o-transform: translate3d(0%,0,0) scale3d(1,1,1);
+  -ms-transform: translate3d(0%,0,0) scale3d(1,1,1);
+  -moz-transform: translate3d(0%,0,0) scale3d(1,1,1);
+  -webkit-transform: translate3d(0%,0,0) scale3d(1,1,1);
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+}
+
+.JSVscrollerHammer {
+    height:95%;
+    float:left;
+    padding:0}
+
+.JSVscrollerHammer ul {
+    list-style:none;
+    display:block;
+    float:left;
+    width:100%;
+    height:100%;
+    padding:0;
+    margin:0;
+    text-align:left}
+
+.JSVscrollerHammer li {
+    padding: 10px;
+    display:block; 
+    float:left}
+
+/*-----------------*/
+
 /*Divs translate and transition*/
 .JSVcontainerLeft{
-    -webkit-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0)}
+    -webkit-transform: translate3d(-20%, 0, 0);
+    transform: translate3d(-20%, 0, 0)}
 
 .JSVcontainerRight{
     -webkit-transform: translate3d(100%, 0, 0);

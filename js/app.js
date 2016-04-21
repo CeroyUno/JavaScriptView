@@ -50,6 +50,11 @@ window.addEventListener('load', function() {
             template: 'views/viewForms.html',
             controller: 'viewForms'
         },
+		viewFormsPlaceholder: {
+            url: '/viewFormsPlaceholder',
+            template: 'views/viewFormsPlaceholder.html',
+            controller: 'viewFormsPlaceholder'
+        },
         viewGrids: {
             url: '/viewGrids',
             template: 'views/viewGrids.html',
@@ -59,6 +64,16 @@ window.addEventListener('load', function() {
             url: '/viewSlide',
             template: 'views/viewSlide.html',
             controller: 'viewSlide'
+        },
+        viewSlideHammer: {
+            url: '/viewSlideHammer',
+            template: 'views/viewSlideHammer.html',
+            controller: 'viewSlideHammer'
+        },
+        viewSlideAdvertising: {
+            url: '/viewSlideAdvertising',
+            template: 'views/viewSlideAdvertising.html',
+            controller: 'viewSlideAdvertising'
         },
         viewRoomChat: {
             url: '/viewRoomChat',
