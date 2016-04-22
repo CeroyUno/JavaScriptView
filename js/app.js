@@ -65,6 +65,11 @@ window.addEventListener('load', function() {
             template: 'views/viewSlide.html',
             controller: 'viewSlide'
         },
+        viewSlideHammer: {
+            url: '/viewSlideHammer',
+            template: 'views/viewSlideHammer.html',
+            controller: 'viewSlideHammer'
+        },
         viewSlideAdvertising: {
             url: '/viewSlideAdvertising',
             template: 'views/viewSlideAdvertising.html',

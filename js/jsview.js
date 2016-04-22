@@ -451,6 +451,85 @@ $JSView = {
             button   // buttonName
         );
     },
+    // this function slide using hammerjs
+    slideHammer:function(id,e){
+        var elements      = $v.selectAll('.JSVscrollerHammer ul li');
+        var numberElement = elements.length;
+        var pane_count    = numberElement;
+        var current_pane  = 0;
+
+        var maxWidth      = $v.select(id).parentElement.offsetWidth;
+        var maxHeight     = $v.select(id).parentElement.offsetHeight;
+        var pane_width    = maxWidth;
+
+        // indicators 
+         $v.select(id).innerHTML += '<div class="JVSnav"><ul class="JSVindicator"></ul></div>';
+         var indicator = '';
+         for (var i = 1; i <= numberElement; i++){
+             if ( i == 1) indicator += '<li class="active">' + i + '</li>';
+             else indicator += '<li>' + i + '</li>';
+         }
+         $v.select(id + ' .JSVindicator').innerHTML = indicator;
+         $v.select(id + ' .JSVindicator').style.paddingLeft = (maxWidth - this.innerWidth) + 'px';
+         // end indicators
+
+        for(var i = 0; i < numberElement; i++){
+           $v.selectAll('.JSVscrollerHammer ul li')[i].style.width = maxWidth + 'px';
+           $v.selectAll('.JSVscrollerHammer ul li')[i].style.height = maxHeight + 'px';
+            var touchControl = new Hammer($v.selectAll('.JSVscrollerHammer ul li')[i]);
+                touchControl.on("swipeleft swiperight",function(event,element){
+                    switch(event.type){
+                        
+                        case 'swiperight':
+                            previous();
+                        break;
+
+                        case 'swipeleft':
+                            next();
+                        break;
+
+                    }
+            });
+        }
+
+        showPane = function(index,animate,id){
+
+            index = Math.max(0, Math.min(index, pane_count-1));
+            current_pane = index;
+    
+            var offset = -((100/pane_count)*current_pane);
+    
+            setContainerOffset(offset, true,id,current_pane);
+        }
+
+        next = function(){
+            current_pane++;
+            return this.showPane(current_pane,true,id);
+        }
+
+        previous = function(){
+            current_pane--;
+            return this.showPane(current_pane, true,id);
+        }
+
+        setContainerOffset = function(percent, animate,id,current_pane) {
+            var container = $v.select('.JSVscrollerHammer ul');
+            container.style.width = numberElement * maxWidth + 'px';
+            container.className = "";
+            if(animate) {
+              container.className = "animate";
+            }            
+            var px = ((pane_width * pane_count) / 100) * percent;
+            container.style.transform = "translate3d("+ percent +"%,0,0) scale3d(1,1,1)";
+            $v.select(id + ' .JSVindicator > li.active').className = '';
+            $v.select(id + ' .JSVindicator > li:nth-child(' + (current_pane+1) + ')').className = 'active';
+        }
+
+       
+
+
+    },
+    
     //This function create slides
     initSlide: function(e, options){
         var elements = $v.selectAll(e + ' .JSVscroller ul li');
@@ -738,7 +817,7 @@ $JSView = {
                         },250)
 
                         console.timeEnd('query');
-                        //console.groupEnd();
+                        console.groupEnd();
 
                     }).catch(function() {
                         // an error occurred
@@ -793,7 +872,7 @@ $JSView = {
                     $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
 
                     console.timeEnd('query');
-                    //console.groupEnd();
+                    console.groupEnd();
 
                 }).catch(function() {
                     // an error occurred
