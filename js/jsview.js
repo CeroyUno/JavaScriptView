@@ -477,42 +477,70 @@ $JSView = {
            $v.selectAll('.JSVscrollerHammer ul li')[i].style.width = maxWidth + 'px';
            $v.selectAll('.JSVscrollerHammer ul li')[i].style.height = maxHeight + 'px';
             var touchControl = new Hammer($v.selectAll('.JSVscrollerHammer ul li')[i]);
-                touchControl.on("swipeleft swiperight",function(event,element){
+                touchControl.on("swipeleft swiperight dragleft dragright panleft panright panend",function(event,element){
                     switch(event.type){
+
+                        case 'panleft':
+                        case 'panright':
+                                
+                                var pane_offset = -(100/pane_count) * current_pane;
+                                var drag_offset = ((100/pane_width) * event.deltaX) / pane_count;
+                                 // slow down at the first and last pane
+                                if((current_pane == 0  && event.direction == Hammer.DIRECTION_RIGHT) ||
+                                   (current_pane == pane_count-1 && event.direction == Hammer.DIRECTION_LEFT)) {
+                                  drag_offset *= .4;
+                                }
+                                
+                                setContainerOffset(drag_offset + pane_offset,false,id,current_pane,event);
+                        break;
                         
                         case 'swiperight':
-                            previous();
+                             previous(event);
                         break;
 
-                        case 'swipeleft':
-                            next();
+                        case 'swipeleft' :
+                            next(event);
+                        break;
+
+                        case 'panend':
+                            // more then 50% moved, navigate
+                            if(Math.abs(event.deltaX) > pane_width/2) {
+                              if(event.direction == Hammer.DIRECTION_RIGHT) {
+                                    previous(event);
+                              } else {
+                                    next(event);
+                              }                        
+                            }
+                            else {
+                              showPane(current_pane, true);                                                
+                            }
                         break;
 
                     }
             });
         }
 
-        showPane = function(index,animate,id){
+        showPane = function(index,animate,id,event){
 
             index = Math.max(0, Math.min(index, pane_count-1));
             current_pane = index;
     
             var offset = -((100/pane_count)*current_pane);
     
-            setContainerOffset(offset, true,id,current_pane);
+            setContainerOffset(offset, true,id,current_pane,event);
         }
 
-        next = function(){
+        next = function(event){
             current_pane++;
-            return this.showPane(current_pane,true,id);
+            return this.showPane(current_pane,true,id,event);
         }
 
         previous = function(){
             current_pane--;
-            return this.showPane(current_pane, true,id);
+            return this.showPane(current_pane, true,id,event);
         }
 
-        setContainerOffset = function(percent, animate,id,current_pane) {
+        setContainerOffset = function(percent, animate,id,current_pane,event) {
             var container = $v.select('.JSVscrollerHammer ul');
             container.style.width = numberElement * maxWidth + 'px';
             container.className = "";
@@ -521,13 +549,13 @@ $JSView = {
             }            
             var px = ((pane_width * pane_count) / 100) * percent;
             container.style.transform = "translate3d("+ percent +"%,0,0) scale3d(1,1,1)";
+            indicators(id,current_pane);
+        }
+
+        indicators = function(id,current_pane){
             $v.select(id + ' .JSVindicator > li.active').className = '';
             $v.select(id + ' .JSVindicator > li:nth-child(' + (current_pane+1) + ')').className = 'active';
         }
-
-       
-
-
     },
     
     //This function create slides
