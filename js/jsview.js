@@ -485,13 +485,14 @@ $JSView = {
                                 
                                 var pane_offset = -(100/pane_count) * current_pane;
                                 var drag_offset = ((100/pane_width) * event.deltaX) / pane_count;
+                                var percent = pane_offset+drag_offset;
                                  // slow down at the first and last pane
                                 if((current_pane == 0  && event.direction == Hammer.DIRECTION_RIGHT) ||
                                    (current_pane == pane_count-1 && event.direction == Hammer.DIRECTION_LEFT)) {
                                   drag_offset *= .4;
                                 }
                                 
-                                setContainerOffset(drag_offset + pane_offset,false,id,current_pane,event);
+                                setContainerOffset(percent,false,id,current_pane,event);
                         break;
                         
                         case 'swiperight':
