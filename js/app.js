@@ -144,6 +144,11 @@ window.addEventListener('load', function() {
             url: '/viewListVideosLoadMoreRemote',
             template: 'views/viewListVideosLoadMoreRemote.html',
             controller: 'viewListVideosLoadMoreRemote'
+        },
+        viewInterstitial:{
+            url: '/viewInterstitial',
+            template: 'views/viewInterstitial.html',
+            controller: 'viewInterstitial'  
         }
     });
     

@@ -155,6 +155,16 @@ $JSView.controller = {
             'title': 'Image Popup'
         },e)
     },
+    viewInterstitial: function(e){
+        $JSView.dataView({
+            'title': 'Interstitial'
+        },e),
+
+        $JSView.interstitial({
+            'duration':'20',
+            'source':'../img/photoCatA.jpg'
+        },'#content',e);
+    },
     viewListPhotosLoadMoreLocal: function(e){
         $JSView.dataView({
             'title': 'Photos initLoadMore Local'

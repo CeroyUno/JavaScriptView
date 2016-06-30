@@ -95,8 +95,8 @@ $JSView = {
     },
     dataView: function(obj, e) {
 
-        console.group('dataView obj -> ' + obj);
-        console.time('dataView');
+        // console.group('dataView obj -> ' + obj);
+        // console.time('dataView');
         
         var contentView = JSVContainersViews[e];
         for (var x in obj) {
@@ -112,14 +112,14 @@ $JSView = {
         //Add the new contents of the container
         objElement.innerHTML += contentView;
         
-        console.timeEnd('dataView');
-        console.groupEnd();
+        // console.timeEnd('dataView');
+        // console.groupEnd();
         
     },
     goToView: function(e){
         
-        console.group('goToView e -> ' + e);
-        console.time('goToView');
+        // console.group('goToView e -> ' + e);
+        // console.time('goToView');
         
         //Keep dom element in a variable
         var objMain = $v.select('jsv-main');
@@ -155,8 +155,8 @@ $JSView = {
         }
         /*-----------*/
         
-        console.timeEnd('goToView');
-        console.groupEnd();
+        // console.timeEnd('goToView');
+        // console.groupEnd();
         
     },
     //DECLARE AND ACTION MENU
@@ -553,11 +553,77 @@ $JSView = {
             indicators(id,current_pane);
         }
 
-        indicators = function(id,current_pane){
+        indicators = function(obj,id,current_pane){
             $v.select(id + ' .JSVindicator > li.active').className = '';
             $v.select(id + ' .JSVindicator > li:nth-child(' + (current_pane+1) + ')').className = 'active';
         }
     },
+
+    // funtion to load Ads Interstitial
+    interstitial:function(obj,id,e){
+        var view = e ;
+        setTimeout(function(view){
+
+            var interstitialContainer = $v.select('#interstitialContainer');
+
+            var view = $v.select(e);
+            var maxWidth      = $v.select(id).parentElement.offsetWidth;
+            var maxHeight     = $v.select(id).parentElement.offsetHeight;
+
+
+            var div = $v.select('#Adsinterstitial');
+            div.style.width  = (maxWidth - 24) + 'px';
+            div.style.height = maxHeight + 'px';
+            var heightFooter = maxHeight - (maxHeight-50);
+
+            $v.select('.footerInterstitial').style.height = heightFooter + 'px';
+            div.style.verticalAlign = maxHeight / 2 + 'px';
+            div.style.marginTop = (maxHeight/4)-20 + 'px';
+
+            $v.select('.contentInterstitial').style.height = (maxHeight/2) + 'px';
+
+            $v.select(id).style.zIndex = 0;
+            $v.select(id).style.position = 'absolute';
+            $v.select('.contentInterstitial img').src = obj.source;
+
+            //show the divs
+            interstitialContainer.appendChild(div);
+            $v.select('#' + e).appendChild(interstitialContainer);
+            //show the divs
+
+            
+
+            div.style.display = 'block';
+            var duration = obj.duration;
+
+            progressBar(obj.duration);
+
+            $v.select(".headerInterstitial a").addEventListener('click',function(evt){
+                evt.preventDefault();
+                $v.select('#Adsinterstitial').style.display = 'none';
+                // $v.select('#' + interstitialContainer.id).classList.remove('interstitialContainer');
+            });
+
+        },1000);
+
+            progressBar = function(duration){
+
+                var progressWidth = 1;
+                var id = setInterval(function(){
+                    
+                    if (progressWidth >= 100) {
+                        clearInterval(id);
+                        // $v.select('#' + interstitialContainer.id).classList.remove('interstitialContainer');
+                        $v.select('#Adsinterstitial').display = 'none';         
+                    } else {
+                        progressWidth ++;
+                        $v.select('.progres-bar-container').style.width = progressWidth +'%';
+                    }
+                },duration)
+            }
+    },
+
+    
     
     //This function create slides
     initSlide: function(e, options){
@@ -711,8 +777,8 @@ $JSView = {
         //obj -> type, url, header, data, increase, refresh, loadmore
         //Now only can use "type" and "url"
         
-        console.group('initLoad');
-        console.time('initLoad');
+        // console.group('initLoad');
+        // console.time('initLoad');
         
         //Save item to repeat from list
         var item = $v.select('#' + e + ' jsv-content jsv-list').innerHTML;
@@ -728,8 +794,8 @@ $JSView = {
                 //Code depending on result
                 console.log(obj);
                     
-                console.group('query');
-                console.time('query');
+                // console.group('query');
+                // console.time('query');
                 contentView = '';
                 var resultQuery = obj;
                 
@@ -745,8 +811,8 @@ $JSView = {
                 //Add the new contents of the container
                 $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
 
-                console.timeEnd('query');
-                console.groupEnd();
+                // console.timeEnd('query');
+                // console.groupEnd();
 
             }
             
@@ -758,8 +824,8 @@ $JSView = {
                 //Code depending on result
                 console.log(JSON.parse(result));
 
-                console.group('query');
-                console.time('query');
+                // console.group('query');
+                // console.time('query');
                 contentView = '';
                 var resultQuery = JSON.parse(result);
                 for (key in resultQuery) {
@@ -774,8 +840,8 @@ $JSView = {
                 //Add the new contents of the container
                 $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
 
-                console.timeEnd('query');
-                console.groupEnd();
+                // console.timeEnd('query');
+                // console.groupEnd();
 
             }).catch(function() {
                 //An error occurred
@@ -820,8 +886,8 @@ $JSView = {
                         //Code depending on result
                         console.log(JSON.parse(result));
 
-                        console.group('query');
-                        console.time('query');
+                        // console.group('query');
+                        // console.time('query');
                         contentView = '';
                         var resultQuery = JSON.parse(result);
                         for (key in resultQuery) {
@@ -845,8 +911,8 @@ $JSView = {
                             actionReload = false;
                         },250)
 
-                        console.timeEnd('query');
-                        console.groupEnd();
+                        // console.timeEnd('query');
+                        // console.groupEnd();
 
                     }).catch(function() {
                         // an error occurred
@@ -884,8 +950,8 @@ $JSView = {
                     //Code depending on result
                     console.log(JSON.parse(result));
 
-                    console.group('query');
-                    console.time('query');
+                    // console.group('query');
+                    // console.time('query');
                     contentView = '';
                     var resultQuery = JSON.parse(result);
                     for (key in resultQuery) {
@@ -900,8 +966,8 @@ $JSView = {
                     //Add the new contents of the container
                     $v.select('#' + e + ' jsv-content jsv-list').innerHTML += contentView;
 
-                    console.timeEnd('query');
-                    console.groupEnd();
+                    // console.timeEnd('query');
+                    // console.groupEnd();
 
                 }).catch(function() {
                     // an error occurred
